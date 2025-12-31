@@ -2,9 +2,10 @@
 layout: post
 ---
 
+- Recommended: [Clean HTML formatted version]({{ site.baseurl }}papers/resnet.html)
 - Paper: https://arxiv.org/abs/1512.03385
 - Github: https://github.com/sehyunlee217/paper_implementations/tree/main/resnet
-- All tables/figures refer to the paper
+- Tables & figure numbers refer to the paper
 
 ### Paper Summary
 

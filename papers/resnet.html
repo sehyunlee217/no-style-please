@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>paper</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+
+    <style>
+      code[class*="language-"],
+      pre[class*="language-"] {
+        color: #333;
+        background: 0 0;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.4;
+        -moz-tab-size: 8;
+        -o-tab-size: 8;
+        tab-size: 8;
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+      pre[class*="language-"] {
+        padding: 0.8em;
+        overflow: auto;
+        border-radius: 3px;
+        background: #f5f5f5;
+      }
+      :not(pre) > code[class*="language-"] {
+        padding: 0.1em;
+        border-radius: 0.3em;
+        white-space: normal;
+        background: #f5f5f5;
+      }
+      .token.blockquote,
+      .token.comment {
+        color: #969896;
+      }
+      .token.cdata {
+        color: #183691;
+      }
+      .token.doctype,
+      .token.macro.property,
+      .token.punctuation,
+      .token.variable {
+        color: #333;
+      }
+      .token.builtin,
+      .token.important,
+      .token.keyword,
+      .token.operator,
+      .token.rule {
+        color: #a71d5d;
+      }
+      .token.attr-value,
+      .token.regex,
+      .token.string,
+      .token.url {
+        color: #183691;
+      }
+      .token.atrule,
+      .token.boolean,
+      .token.code,
+      .token.command,
+      .token.constant,
+      .token.entity,
+      .token.number,
+      .token.property,
+      .token.symbol {
+        color: #0086b3;
+      }
+      .token.prolog,
+      .token.selector,
+      .token.tag {
+        color: #63a35c;
+      }
+      .token.attr-name,
+      .token.class,
+      .token.class-name,
+      .token.function,
+      .token.id,
+      .token.namespace,
+      .token.pseudo-class,
+      .token.pseudo-element,
+      .token.url-reference .token.variable {
+        color: #795da3;
+      }
+      .token.entity {
+        cursor: help;
+      }
+      .token.title,
+      .token.title .token.punctuation {
+        font-weight: 700;
+        color: #1d3e81;
+      }
+      .token.list {
+        color: #ed6a43;
+      }
+      .token.inserted {
+        background-color: #eaffea;
+        color: #55a532;
+      }
+      .token.deleted {
+        background-color: #ffecec;
+        color: #bd2c00;
+      }
+      .token.bold {
+        font-weight: 700;
+      }
+      .token.italic {
+        font-style: italic;
+      }
+      .language-json .token.property {
+        color: #183691;
+      }
+      .language-markup .token.tag .token.punctuation {
+        color: #333;
+      }
+      .language-css .token.function,
+      code.language-css {
+        color: #0086b3;
+      }
+      .language-yaml .token.atrule {
+        color: #63a35c;
+      }
+      code.language-yaml {
+        color: #183691;
+      }
+      .language-ruby .token.function {
+        color: #333;
+      }
+      .language-markdown .token.url {
+        color: #795da3;
+      }
+      .language-makefile .token.symbol {
+        color: #795da3;
+      }
+      .language-makefile .token.variable {
+        color: #183691;
+      }
+      .language-makefile .token.builtin {
+        color: #0086b3;
+      }
+      .language-bash .token.keyword {
+        color: #0086b3;
+      }
+      pre[data-line] {
+        position: relative;
+        padding: 1em 0 1em 3em;
+      }
+      pre[data-line] .line-highlight-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        display: block;
+        width: 100%;
+      }
+      pre[data-line] .line-highlight {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: inherit 0;
+        margin-top: 1em;
+        background: hsla(24, 20%, 50%, 0.08);
+        background: linear-gradient(
+          to right,
+          hsla(24, 20%, 50%, 0.1) 70%,
+          hsla(24, 20%, 50%, 0)
+        );
+        pointer-events: none;
+        line-height: inherit;
+        white-space: pre;
+      }
+      pre[data-line] .line-highlight:before,
+      pre[data-line] .line-highlight[data-end]:after {
+        content: attr(data-start);
+        position: absolute;
+        top: 0.4em;
+        left: 0.6em;
+        min-width: 1em;
+        padding: 0 0.5em;
+        background-color: hsla(24, 20%, 50%, 0.4);
+        color: #f4f1ef;
+        font: bold 65%/1.5 sans-serif;
+        text-align: center;
+        vertical-align: 0.3em;
+        border-radius: 999px;
+        text-shadow: none;
+        box-shadow: 0 1px #fff;
+      }
+      pre[data-line] .line-highlight[data-end]:after {
+        content: attr(data-end);
+        top: auto;
+        bottom: 0.4em;
+      }
+      html body {
+        font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans,
+          sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        background-color: #fff;
+        overflow: initial;
+        box-sizing: border-box;
+        word-wrap: break-word;
+      }
+      html body > :first-child {
+        margin-top: 0;
+      }
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body h5,
+      html body h6 {
+        line-height: 1.2;
+        margin-top: 1em;
+        margin-bottom: 16px;
+        color: #000;
+      }
+      html body h1 {
+        font-size: 2.25em;
+        font-weight: 300;
+        padding-bottom: 0.3em;
+      }
+      html body h2 {
+        font-size: 1.75em;
+        font-weight: 400;
+        padding-bottom: 0.3em;
+      }
+      html body h3 {
+        font-size: 1.5em;
+        font-weight: 500;
+      }
+      html body h4 {
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      html body h5 {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+      html body h6 {
+        font-size: 1em;
+        font-weight: 600;
+      }
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body h5 {
+        font-weight: 600;
+      }
+      html body h5 {
+        font-size: 1em;
+      }
+      html body h6 {
+        color: #5c5c5c;
+      }
+      html body strong {
+        color: #000;
+      }
+      html body del {
+        color: #5c5c5c;
+      }
+      html body a:not([href]) {
+        color: inherit;
+        text-decoration: none;
+      }
+      html body a {
+        color: #08c;
+        text-decoration: none;
+      }
+      html body a:hover {
+        color: #00a3f5;
+        text-decoration: none;
+      }
+      html body img {
+        max-width: 100%;
+      }
+      html body > p {
+        margin-top: 0;
+        margin-bottom: 16px;
+        word-wrap: break-word;
+      }
+      html body > ol,
+      html body > ul {
+        margin-bottom: 16px;
+      }
+      html body ol,
+      html body ul {
+        padding-left: 2em;
+      }
+      html body ol.no-list,
+      html body ul.no-list {
+        padding: 0;
+        list-style-type: none;
+      }
+      html body ol ol,
+      html body ol ul,
+      html body ul ol,
+      html body ul ul {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      html body li {
+        margin-bottom: 0;
+      }
+      html body li.task-list-item {
+        list-style: none;
+      }
+      html body li > p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      html body .task-list-item-checkbox {
+        margin: 0 0.2em 0.25em -1.8em;
+        vertical-align: middle;
+      }
+      html body .task-list-item-checkbox:hover {
+        cursor: pointer;
+      }
+      html body blockquote {
+        margin: 16px 0;
+        font-size: inherit;
+        padding: 0 15px;
+        color: #5c5c5c;
+        background-color: #f0f0f0;
+        border-left: 4px solid #d6d6d6;
+      }
+      html body blockquote > :first-child {
+        margin-top: 0;
+      }
+      html body blockquote > :last-child {
+        margin-bottom: 0;
+      }
+      html body hr {
+        height: 4px;
+        margin: 32px 0;
+        background-color: #d6d6d6;
+        border: 0 none;
+      }
+      html body table {
+        margin: 10px 0 15px 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        display: block;
+        width: 100%;
+        overflow: auto;
+        word-break: normal;
+        word-break: keep-all;
+      }
+      html body table th {
+        font-weight: 700;
+        color: #000;
+      }
+      html body table td,
+      html body table th {
+        border: 1px solid #d6d6d6;
+        padding: 6px 13px;
+      }
+      html body dl {
+        padding: 0;
+      }
+      html body dl dt {
+        padding: 0;
+        margin-top: 16px;
+        font-size: 1em;
+        font-style: italic;
+        font-weight: 700;
+      }
+      html body dl dd {
+        padding: 0 16px;
+        margin-bottom: 16px;
+      }
+      html body code {
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-size: 0.85em;
+        color: #000;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+        padding: 0.2em 0;
+      }
+      html body code::after,
+      html body code::before {
+        letter-spacing: -0.2em;
+        content: "\00a0";
+      }
+      html body pre > code {
+        padding: 0;
+        margin: 0;
+        word-break: normal;
+        white-space: pre;
+        background: 0 0;
+        border: 0;
+      }
+      html body .highlight {
+        margin-bottom: 16px;
+      }
+      html body .highlight pre,
+      html body pre {
+        padding: 1em;
+        overflow: auto;
+        line-height: 1.45;
+        border: #d6d6d6;
+        border-radius: 3px;
+      }
+      html body .highlight pre {
+        margin-bottom: 0;
+        word-break: normal;
+      }
+      html body pre code,
+      html body pre tt {
+        display: inline;
+        max-width: initial;
+        padding: 0;
+        margin: 0;
+        overflow: initial;
+        line-height: inherit;
+        word-wrap: normal;
+        background-color: transparent;
+        border: 0;
+      }
+      html body pre code:after,
+      html body pre code:before,
+      html body pre tt:after,
+      html body pre tt:before {
+        content: normal;
+      }
+      html body blockquote,
+      html body dl,
+      html body ol,
+      html body p,
+      html body pre,
+      html body ul {
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+      html body kbd {
+        color: #000;
+        border: 1px solid #d6d6d6;
+        border-bottom: 2px solid #c7c7c7;
+        padding: 2px 4px;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+      }
+      @media print {
+        html body {
+          background-color: #fff;
+        }
+        html body h1,
+        html body h2,
+        html body h3,
+        html body h4,
+        html body h5,
+        html body h6 {
+          color: #000;
+          page-break-after: avoid;
+        }
+        html body blockquote {
+          color: #5c5c5c;
+        }
+        html body pre {
+          page-break-inside: avoid;
+        }
+        html body table {
+          display: table;
+        }
+        html body img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+        }
+        html body code,
+        html body pre {
+          word-wrap: break-word;
+          white-space: pre;
+        }
+      }
+      .markdown-preview {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .markdown-preview ul {
+        list-style: disc;
+      }
+      .markdown-preview ul ul {
+        list-style: circle;
+      }
+      .markdown-preview ul ul ul {
+        list-style: square;
+      }
+      .markdown-preview ol {
+        list-style: decimal;
+      }
+      .markdown-preview ol ol,
+      .markdown-preview ul ol {
+        list-style-type: lower-roman;
+      }
+      .markdown-preview ol ol ol,
+      .markdown-preview ol ul ol,
+      .markdown-preview ul ol ol,
+      .markdown-preview ul ul ol {
+        list-style-type: lower-alpha;
+      }
+      .markdown-preview .newpage,
+      .markdown-preview .pagebreak {
+        page-break-before: always;
+      }
+      .markdown-preview pre.line-numbers {
+        position: relative;
+        padding-left: 3.8em;
+        counter-reset: linenumber;
+      }
+      .markdown-preview pre.line-numbers > code {
+        position: relative;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows {
+        position: absolute;
+        pointer-events: none;
+        top: 1em;
+        font-size: 100%;
+        left: 0;
+        width: 3em;
+        letter-spacing: -1px;
+        border-right: 1px solid #999;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows > span:before {
+        content: counter(linenumber);
+        color: #999;
+        display: block;
+        padding-right: 0.8em;
+        text-align: right;
+      }
+      .markdown-preview .mathjax-exps .MathJax_Display {
+        text-align: center !important;
+      }
+      .markdown-preview:not([data-for="preview"])
+        .code-chunk
+        .code-chunk-btn-group {
+        display: none;
+      }
+      .markdown-preview:not([data-for="preview"]) .code-chunk .status {
+        display: none;
+      }
+      .markdown-preview:not([data-for="preview"]) .code-chunk .output-div {
+        margin-bottom: 16px;
+      }
+      .markdown-preview .md-toc {
+        padding: 0;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link {
+        display: inline;
+        padding: 0.25rem 0;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p {
+        display: inline;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link {
+        font-weight: 800;
+      }
+      .scrollbar-style::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scrollbar-style::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: transparent;
+      }
+      .scrollbar-style::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(150, 150, 150, 0.66);
+        border: 4px solid rgba(150, 150, 150, 0.66);
+        background-clip: content-box;
+      }
+      html body[for="html-export"]:not([data-presentation-mode]) {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode])
+        .markdown-preview {
+        position: relative;
+        top: 0;
+        min-height: 100vh;
+      }
+      @media screen and (min-width: 914px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          padding: 2em calc(50% - 457px + 2em);
+        }
+      }
+      @media screen and (max-width: 914px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          padding: 2em;
+        }
+      }
+      @media screen and (max-width: 450px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          font-size: 14px !important;
+          padding: 1em;
+        }
+      }
+      @media print {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          #sidebar-toc-btn {
+          display: none;
+        }
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode])
+        #sidebar-toc-btn {
+        position: fixed;
+        bottom: 8px;
+        left: 8px;
+        font-size: 28px;
+        cursor: pointer;
+        color: inherit;
+        z-index: 99;
+        width: 32px;
+        text-align: center;
+        opacity: 0.4;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        #sidebar-toc-btn {
+        opacity: 1;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 100%;
+        padding: 32px 0 48px 0;
+        font-size: 14px;
+        box-shadow: 0 0 4px rgba(150, 150, 150, 0.33);
+        box-sizing: border-box;
+        overflow: auto;
+        background-color: inherit;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar {
+        width: 8px;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: transparent;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(150, 150, 150, 0.66);
+        border: 4px solid rgba(150, 150, 150, 0.66);
+        background-clip: content-box;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        a {
+        text-decoration: none;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc {
+        padding: 0 16px;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link {
+        display: inline;
+        padding: 0.25rem 0;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link
+        div,
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link
+        p {
+        display: inline;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper.highlighted
+        .md-toc-link {
+        font-weight: 800;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .markdown-preview {
+        left: 300px;
+        width: calc(100% - 300px);
+        padding: 2em calc(50% - 457px - 300px / 2);
+        margin: 0;
+        box-sizing: border-box;
+      }
+      @media screen and (max-width: 1274px) {
+        html
+          body[for="html-export"]:not(
+            [data-presentation-mode]
+          )[html-show-sidebar-toc]
+          .markdown-preview {
+          padding: 2em;
+        }
+      }
+      @media screen and (max-width: 450px) {
+        html
+          body[for="html-export"]:not(
+            [data-presentation-mode]
+          )[html-show-sidebar-toc]
+          .markdown-preview {
+          width: 100%;
+        }
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode]):not(
+          [html-show-sidebar-toc]
+        )
+        .markdown-preview {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode]):not(
+          [html-show-sidebar-toc]
+        )
+        .md-sidebar-toc {
+        display: none;
+      }
+      /* Please visit the URL below for more information: */
+      /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+    </style>
+    <!-- The content below will be included at the end of the <head> element. -->
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        // your code here
+      });
+    </script>
+  </head>
+  <body for="html-export">
+    <div class="crossnote markdown-preview">
+      <ul>
+        <li>
+          Paper:
+          <a href="https://arxiv.org/abs/1512.03385"
+            >https://arxiv.org/abs/1512.03385</a
+          >
+        </li>
+      </ul>
+      <h3 id="paper-summary">Paper Summary</h3>
+      <p>
+        Increase in layers in NNs causes vanishing/exploding gradient problems
+        (think of chain rule, more multiplications of the partial derivatives
+        can lead to very small gradients being updated or very large gradients).
+        The authors finds thats deeper networks have higher training-error that
+        is not caused by overfitting, also known as the
+        <strong>degrading problem</strong>.
+      </p>
+      <p>
+        Given
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x)</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span></span
+            ></span
+          ></span
+        >
+        being the desired mapping/output of network, instead of trying to learn
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>F</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x) = F(x)</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span></span
+            ></span
+          ></span
+        >
+        directly, we instead learn
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>F</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>+</mo><mi>x</mi
+                  ><mo separator="true">,</mo></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x) = F(x) + x,</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span
+              ><span class="mbin">+</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 0.625em; vertical-align: -0.1944em"
+              ></span
+              ><span class="mord mathnormal">x</span
+              ><span class="mpunct">,</span></span
+            ></span
+          ></span
+        >
+        where the
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow><mo>+</mo><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >+ x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 0.6667em; vertical-align: -0.0833em"
+              ></span
+              ><span class="mord">+</span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >
+        term is referred to identity mapping. The intuition behind this is
+        <strong
+          >deeper networks should perform equally or better than shallower
+          networks</strong
+        >, and in the extreme case where adding more layers has no effect, the
+        added layers should form a identity mapping of
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>F</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x) = F(x) = x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span class="strut" style="height: 0.4306em"></span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >. However, in practice, this is not true. It is shown that solvers may
+        struggle learning identity mappings if there are too many layers.
+      </p>
+      <p>
+        For example, without using residual connections, if we use
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>R</mi><mi>e</mi><mi>L</mi><mi>U</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>m</mi><mi>a</mi
+                  ><mi>x</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo separator="true">,</mo><mn>0</mn
+                  ><mo stretchy="false">)</mo></mrow
+                ><annotation encoding="application/x-tex"
+                  >ReLU(x) = max(x, 0)</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.00773em"
+                >R</span
+              ><span class="mord mathnormal">e</span
+              ><span class="mord mathnormal" style="margin-right: 0.10903em"
+                >LU</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal">ma</span
+              ><span class="mord mathnormal">x</span><span class="mopen">(</span
+              ><span class="mord mathnormal">x</span
+              ><span class="mpunct">,</span
+              ><span class="mspace" style="margin-right: 0.1667em"></span
+              ><span class="mord">0</span><span class="mclose">)</span></span
+            ></span
+          ></span
+        >
+        as our non-linear activation function, and if the output of this
+        function is 0 then at that layer
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>F</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo separator="true">;</mo
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x) = F(x) ; H(x) = 0</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span><span class="mpunct">;</span
+              ><span class="mspace" style="margin-right: 0.1667em"></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span class="strut" style="height: 0.6444em"></span
+              ><span class="mord">0</span></span
+            ></span
+          ></span
+        >, meaning that the identity of this layer is lost. Using
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>=</mo><mi>F</mi
+                  ><mo stretchy="false">(</mo><mi>x</mi
+                  ><mo stretchy="false">)</mo><mo>+</mo><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >H(x) = F(x) + x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.08125em"
+                >H</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mclose">)</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span
+              ><span class="mbin">+</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span></span
+            ><span class="base"
+              ><span class="strut" style="height: 0.4306em"></span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >
+        can help push the non-linear layer to 0 and allow the
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow><mo>+</mo><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >+x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 0.6667em; vertical-align: -0.0833em"
+              ></span
+              ><span class="mord">+</span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >
+        term to retain the identity mappings.
+      </p>
+      <p>
+        Formally, the resnet blocks are defined as :
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>y</mi><mo>=</mo><mi>F</mi><mo stretchy="false">(</mo
+                  ><mi>x</mi><mo separator="true">,</mo
+                  ><mo stretchy="false">{</mo><msub><mi>W</mi><mi>i</mi></msub
+                  ><mo stretchy="false">}</mo><mo stretchy="false">)</mo
+                  ><mo>+</mo><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >y = F(x, \{W_{i}\}) + x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 0.625em; vertical-align: -0.1944em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.03588em"
+                >y</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span
+              ><span class="mrel">=</span
+              ><span class="mspace" style="margin-right: 0.2778em"></span></span
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord mathnormal">x</span
+              ><span class="mpunct">,</span
+              ><span class="mspace" style="margin-right: 0.1667em"></span
+              ><span class="mopen">{</span
+              ><span class="mord"
+                ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                  >W</span
+                ><span class="msupsub"
+                  ><span class="vlist-t vlist-t2"
+                    ><span class="vlist-r"
+                      ><span class="vlist" style="height: 0.3117em"
+                        ><span
+                          style="
+                            top: -2.55em;
+                            margin-left: -0.1389em;
+                            margin-right: 0.05em;
+                          "
+                          ><span class="pstrut" style="height: 2.7em"></span
+                          ><span class="sizing reset-size6 size3 mtight"
+                            ><span class="mord mtight"
+                              ><span class="mord mathnormal mtight"
+                                >i</span
+                              ></span
+                            ></span
+                          ></span
+                        ></span
+                      ><span class="vlist-s">​</span></span
+                    ><span class="vlist-r"
+                      ><span class="vlist" style="height: 0.15em"
+                        ><span></span></span></span></span></span></span
+              ><span class="mclose">})</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span
+              ><span class="mbin">+</span
+              ><span class="mspace" style="margin-right: 0.2222em"></span></span
+            ><span class="base"
+              ><span class="strut" style="height: 0.4306em"></span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >, where
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><mi>F</mi><mo stretchy="false">(</mo><mo>⋅</mo
+                  ><mo stretchy="false">)</mo></mrow
+                ><annotation encoding="application/x-tex"
+                  >F(\cdot)</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 1em; vertical-align: -0.25em"
+              ></span
+              ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                >F</span
+              ><span class="mopen">(</span><span class="mord">⋅</span
+              ><span class="mclose">)</span></span
+            ></span
+          ></span
+        >
+        has the same dimension as
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span class="strut" style="height: 0.4306em"></span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >. If not, the paper performs a linear projection
+        <span class="katex"
+          ><span class="katex-mathml"
+            ><math xmlns="http://www.w3.org/1998/Math/MathML"
+              ><semantics
+                ><mrow
+                  ><msub><mi>W</mi><mi>x</mi></msub
+                  ><mi>x</mi></mrow
+                ><annotation encoding="application/x-tex"
+                  >W_{x}x</annotation
+                ></semantics
+              ></math
+            ></span
+          ><span class="katex-html" aria-hidden="true"
+            ><span class="base"
+              ><span
+                class="strut"
+                style="height: 0.8333em; vertical-align: -0.15em"
+              ></span
+              ><span class="mord"
+                ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                  >W</span
+                ><span class="msupsub"
+                  ><span class="vlist-t vlist-t2"
+                    ><span class="vlist-r"
+                      ><span class="vlist" style="height: 0.1514em"
+                        ><span
+                          style="
+                            top: -2.55em;
+                            margin-left: -0.1389em;
+                            margin-right: 0.05em;
+                          "
+                          ><span class="pstrut" style="height: 2.7em"></span
+                          ><span class="sizing reset-size6 size3 mtight"
+                            ><span class="mord mtight"
+                              ><span class="mord mathnormal mtight"
+                                >x</span
+                              ></span
+                            ></span
+                          ></span
+                        ></span
+                      ><span class="vlist-s">​</span></span
+                    ><span class="vlist-r"
+                      ><span class="vlist" style="height: 0.15em"
+                        ><span></span></span></span></span></span></span
+              ><span class="mord mathnormal">x</span></span
+            ></span
+          ></span
+        >
+        to match the dimensions.
+      </p>
+      <h3 id="implementation-details">Implementation Details</h3>
+      <ul>
+        <li>
+          "We adopt batch normalization (BN) [16] right after each convolution
+          and before activation" →
+          <strong>apply BN after each convolution layer</strong>.
+        </li>
+        <li>
+          "(B) The projection shortcut in Eqn.(2) is used to match dimensions
+          (done by 1×1 convolutions). For both options, when the shortcuts go
+          across feature maps of two sizes, they are performed with a stride of
+          2" →
+          <strong
+            >perform linear projection for the skip connection
+            <span class="katex"
+              ><span class="katex-mathml"
+                ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                  ><semantics
+                    ><mrow
+                      ><msub><mi>W</mi><mi>x</mi></msub
+                      ><mi>x</mi></mrow
+                    ><annotation encoding="application/x-tex"
+                      >W_{x}x</annotation
+                    ></semantics
+                  ></math
+                ></span
+              ><span class="katex-html" aria-hidden="true"
+                ><span class="base"
+                  ><span
+                    class="strut"
+                    style="height: 0.8333em; vertical-align: -0.15em"
+                  ></span
+                  ><span class="mord"
+                    ><span
+                      class="mord mathnormal"
+                      style="margin-right: 0.13889em"
+                      >W</span
+                    ><span class="msupsub"
+                      ><span class="vlist-t vlist-t2"
+                        ><span class="vlist-r"
+                          ><span class="vlist" style="height: 0.1514em"
+                            ><span
+                              style="
+                                top: -2.55em;
+                                margin-left: -0.1389em;
+                                margin-right: 0.05em;
+                              "
+                              ><span class="pstrut" style="height: 2.7em"></span
+                              ><span class="sizing reset-size6 size3 mtight"
+                                ><span class="mord mtight"
+                                  ><span class="mord mathnormal mtight"
+                                    >x</span
+                                  ></span
+                                ></span
+                              ></span
+                            ></span
+                          ><span class="vlist-s">​</span></span
+                        ><span class="vlist-r"
+                          ><span class="vlist" style="height: 0.15em"
+                            ><span></span></span></span></span></span></span
+                  ><span class="mord mathnormal">x</span></span
+                ></span
+              ></span
+            >
+            using 1-D convolutions with stride 2 if dimensions don't match, else
+            use identity.</strong
+          >
+        </li>
+        <li>
+          "For both options, when the shortcuts go across feature maps of two
+          sizes, they are <strong>performed with a stride of 2</strong>". →
+          <strong>stride = 2</strong> for skip connections when output size
+          (feature map dimensions) changes.
+        </li>
+      </ul>
+      <h4 id="linear-projection">Linear Projection</h4>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">LinearProjection</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    projects W_x * x
+    Normally, stride should be 1 but 2 when it goes across different feature map dimensions.
+    """</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> in_channel<span class="token punctuation">,</span> out_channel<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+        <span class="token comment"># This is where we do the linear projection W_x * x using conv.</span>
+        self<span class="token punctuation">.</span>conv <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>in_channel<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>out_channel<span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+            stride<span class="token operator">=</span>stride<span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+        <span class="token comment"># Always batch norm after each conv. </span>
+        self<span class="token punctuation">.</span>bn <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>out_channel<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""forward pass for linear projection for identify mapping"""</span>
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>bn<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+      <h4 id="residual-block-34---layer">Residual Block (34 - Layer)</h4>
+      <p><img src="images/configs.png" alt="alt text" /></p>
+      <ul>
+        <li>
+          Basic Resisual block: [3 x 3, C] x 3 → <strong>kernel_size=3</strong>,
+          <strong>identical channels between layers</strong>,
+          <strong>3 layers per block</strong>.
+        </li>
+        <li>
+          The feature map size halves at each block (56 → 28 → ...), meaning
+          that we need <strong>stride=2 at least once</strong> to halve the
+          dimensions.
+        </li>
+        <li>
+          Channels are preserved within block, so
+          <strong>padding=1 is required</strong>.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token triple-quoted-string string">"""
+    Building blocks for ResNet-34
+    Conv -&gt; BN -&gt; Conv -&gt; BN -&gt; + residual
+    """</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> in_channel<span class="token punctuation">,</span> out_channel<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>in_channel<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>out_channel<span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span>
+            stride<span class="token operator">=</span>stride<span class="token punctuation">,</span>
+            padding<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bn1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>out_channel<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>act1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>conv2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>out_channel<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>out_channel<span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span>
+            stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+            padding<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bn2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>out_channel<span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-if">if</span> in_channel <span class="token operator">!=</span> out_channel<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>skipconnection <span class="token operator">=</span> LinearProjection<span class="token punctuation">(</span>
+                in_channel<span class="token operator">=</span>in_channel<span class="token punctuation">,</span> out_channel<span class="token operator">=</span>out_channel<span class="token punctuation">,</span> stride<span class="token operator">=</span>stride
+            <span class="token punctuation">)</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>skipconnection <span class="token operator">=</span> nn<span class="token punctuation">.</span>Identity<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>act2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        forward function
+        """</span>
+        skipconnection <span class="token operator">=</span> self<span class="token punctuation">.</span>skipconnection<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>act1<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bn1<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>bn2<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>act2<span class="token punctuation">(</span>x <span class="token operator">+</span> skipconnection<span class="token punctuation">)</span>
+
+</code></pre>
+      <h4 id="resnet-34">Resnet 34</h4>
+      <ul>
+        <li>
+          In the table above, for ResNet-34,
+          <strong
+            >num_blocks = [3, 4, 6, 3], num_channels = [64, 128, 256,
+            512]</strong
+          >.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="python"
+        class="language-python python"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">ResNet34</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    - num_blocks=[3, 4, 6, 3], num_channels=[64, 128, 256, 512])
+
+    # first conv layer for Resnet34 -&gt; takes (3,224,224) -&gt; 7x7  convolution with 64 channels
+        # output should be (64, 112, 112);
+        # for convolution, out_size = floor{(Input - Kernel_Size + 2 * Padding) / Stride} + 1
+        # in this case --&gt;      112 = floor{(224 - 7 + 2*Padding) / 2} + 1
+        # in this case --&gt;      111 = floor{(224 - 7 + 2*Padding) / 2}
+        # in this case --&gt;      111 &lt;= (224 - 7 + 2*Padding)/2 &lt; 112
+        # in this case --&gt;      222 &lt;= (217 + 2*Padding) &lt; 224
+        # in this case --&gt;      5 &lt;= (2*Padding) &lt; 7
+        # in this case --&gt;      2.5 &lt;= (Padding) &lt; 3.5
+        # in this case --&gt;      Padding = 3
+    """</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> num_blocks<span class="token punctuation">,</span> num_channels<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>
+            nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token number">7</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> padding<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> bias<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span>inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token comment"># techincally, max pooling is part of conv2_x</span>
+            nn<span class="token punctuation">.</span>MaxPool2d<span class="token punctuation">(</span>kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> padding<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>in_channels <span class="token operator">=</span> <span class="token number">64</span>
+
+        layers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword keyword-for">for</span> i<span class="token punctuation">,</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>num_blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            stride <span class="token operator">=</span> <span class="token punctuation">(</span>
+                <span class="token number">1</span> <span class="token keyword keyword-if">if</span> i <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword keyword-else">else</span> <span class="token number">2</span>
+            <span class="token punctuation">)</span>  <span class="token comment"># for conv2_x, no need to have stride 2 as maxpooling already reduces dim</span>
+            layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>_make_layers<span class="token punctuation">(</span>ResidualBlock<span class="token punctuation">,</span> num_channels<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> num_blocks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> stride<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>body <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token operator">*</span>layers<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>avgpool <span class="token operator">=</span> nn<span class="token punctuation">.</span>AvgPool2d<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token comment"># image classification with 1000 different types of classes</span>
+        self<span class="token punctuation">.</span>fc <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span>num_channels<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">_make_layers</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> block<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> num_blocks<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        layers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment"># first block connects prev. channel dim to current channel dimm</span>
+        layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>block<span class="token punctuation">(</span>self<span class="token punctuation">.</span>in_channels<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>in_channels <span class="token operator">=</span> out_channels
+
+        <span class="token comment"># remaining has same channel dims</span>
+        <span class="token keyword keyword-for">for</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> num_blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>block<span class="token punctuation">(</span>out_channels<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-return">return</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token operator">*</span>layers<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Docstring for forward
+        """</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>body<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>avgpool<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> torch<span class="token punctuation">.</span>flatten<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>fc<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> x
+
+</code></pre>
+      <h4 id="bottleneck-block-cifar-10">Bottleneck Block (CIFAR-10)</h4>
+      <p><img src="images/bottleneck.png" alt="alt text" /></p>
+      <ul>
+        <li>
+          Similiar to original [left] block but added complexity by having
+          different kernel sizes (bottleneck) structure [right].
+        </li>
+        <li>
+          Need to have additional channel for the bottleneck layers, but
+          otherwise, remains the same.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="python"
+        class="language-python python"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">BottleNeckBlock</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Docstring for BottleNeckBlock
+    """</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> in_channels<span class="token punctuation">,</span> bottleneck_channels<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>in_channels<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>bottleneck_channels<span class="token punctuation">,</span>
+            stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>bn1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>in_channels<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>conv2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>bottleneck_channels<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>bottleneck_channels<span class="token punctuation">,</span>
+            stride<span class="token operator">=</span>stride<span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>bn2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>bottleneck_channels<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>conv3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span>bottleneck_channels<span class="token punctuation">,</span>
+            out_channels<span class="token operator">=</span>out_channels<span class="token punctuation">,</span>
+            stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+            kernel_size<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>bn3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span>out_channels<span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-if">if</span> in_channels <span class="token operator">!=</span> out_channels<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>skipconnection <span class="token operator">=</span> LinearProjection<span class="token punctuation">(</span>
+                in_channel<span class="token operator">=</span>in_channels<span class="token punctuation">,</span> out_channel<span class="token operator">=</span>out_channels<span class="token punctuation">,</span> stride<span class="token operator">=</span>stride
+            <span class="token punctuation">)</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>skipconnection <span class="token operator">=</span> nn<span class="token punctuation">.</span>Identity<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>act1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>act2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>act3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Docstring for forward
+
+        :param self: Description
+        """</span>
+        skipconnection <span class="token operator">=</span> self<span class="token punctuation">.</span>skipconnection<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>act1<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bn1<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>act2<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bn2<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>act3<span class="token punctuation">(</span>skipconnection <span class="token operator">+</span> self<span class="token punctuation">.</span>bn3<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv3<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+      <h4 id="resnet---cifar10">Resnet - CIFAR10</h4>
+      <pre
+        data-role="codeBlock"
+        data-info="python"
+        class="language-python python"
+      ><code>lass ResNetCifar10<span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    Docstring for Cifar10
+    - input: (3,32,32)
+    - for convolution, out_size = floor{(Input - Kernel_Size + 2 * Padding) / Stride} + 1
+    """</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> num_blocks<span class="token punctuation">,</span> num_channels<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token comment"># want to preserve dim size of (32,32)</span>
+        <span class="token comment"># 32 = floor{(32 - 3 + 2*Padding) / Stride} + 1</span>
+        <span class="token comment"># 31 &lt;= (29 + 2*Padding)  &lt; 32</span>
+        <span class="token comment"># 2 &lt;= 2*Padding &lt; 3</span>
+        <span class="token comment"># Padding = 1</span>
+
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span>
+            in_channels<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> out_channels<span class="token operator">=</span><span class="token number">64</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> padding<span class="token operator">=</span><span class="token number">1</span>
+        <span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bn1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>BatchNorm2d<span class="token punctuation">(</span><span class="token number">64</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>act1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>in_channels <span class="token operator">=</span> <span class="token number">64</span>
+
+        layers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword keyword-for">for</span> i<span class="token punctuation">,</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>num_blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            stride <span class="token operator">=</span> <span class="token punctuation">(</span>
+                <span class="token number">1</span> <span class="token keyword keyword-if">if</span> i <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword keyword-else">else</span> <span class="token number">2</span>
+            <span class="token punctuation">)</span>  <span class="token comment"># for conv2_x, no need to have stride 2 as maxpooling already reduces dim</span>
+            layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>_make_layers<span class="token punctuation">(</span>ResidualBlock<span class="token punctuation">,</span> num_channels<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> num_blocks<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> stride<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>blocks <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token operator">*</span>layers<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>avgpool <span class="token operator">=</span> nn<span class="token punctuation">.</span>AdaptiveAvgPool2d<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span>num_channels<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">_make_layers</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> block<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> num_blocks<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        layers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment"># first block connects prev. channel dim to current channel dimm</span>
+        layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>block<span class="token punctuation">(</span>self<span class="token punctuation">.</span>in_channels<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> stride<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>in_channels <span class="token operator">=</span> out_channels
+
+        <span class="token comment"># remaining has same channel dims</span>
+        <span class="token keyword keyword-for">for</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> num_blocks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>block<span class="token punctuation">(</span>out_channels<span class="token punctuation">,</span> out_channels<span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-return">return</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token operator">*</span>layers<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Docstring for forward
+        """</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>blocks<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>avgpool<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> torch<span class="token punctuation">.</span>flatten<span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>fc<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> x
+</code></pre>
+      <h4 id="training-details-cifar-10">Training Details (CIFAR-10)</h4>
+      <p><img src="images/training.png" alt="alt text" /></p>
+      <ul>
+        <li>
+          Based on the table provided,
+          <code
+            >num_layers = [1 + 2 * config.N, 2 * config.N, 2 * config.N]</code
+          >
+        </li>
+        <li>
+          "We use a weight decay of 0.0001 and momentum of 0.9" →
+          <code>weight_decay": 1e-4, momentum=0.9</code>
+        </li>
+        <li>
+          "These models are trained with a mini-batch size of 128" →
+          <code>"batch_size": 128</code>
+        </li>
+        <li>
+          "We start with a learning rate of 0.1, divide it by 10 at 32k and 48k
+          iterations" → specific calculations are included in the code but need
+          to use
+          <code
+            >optim.lr_scheduler.MultiStepLR( optimizer, milestones=[77, 103],
+            gamma=0.1 )</code
+          >
+          to specify leraning rates.
+        </li>
+        <li>
+          "We compare n = {3, 5, 7, 9}, leading to 20, 32, 44, and 56-layer
+          networks"
+        </li>
+        <li>
+          "We follow the simple data augmentation in [24] for training: 4 pixels
+          are padded on each side, and a 32×32 crop is randomly sampled from the
+          padded image or its horizontal flip. For testing, we only evaluate the
+          single view of the original 32×32 image" →
+          <code
+            >transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(), transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994,
+            0.2010)),</code
+          >
+        </li>
+        <li>
+          Also note to change the last Linear layers to have a output dim of 10
+          as CIFAR-10 classifies 10 classes, as the name suggests.
+        </li>
+      </ul>
+      <h4 id="results-cifar-10">Results (CIFAR-10)</h4>
+      <ul>
+        <li>
+          All detailed results can be found at the wandb
+          <a
+            href="https://api.wandb.ai/links/leeseunghyun217-university-of-toronto/8jrwxidd"
+            >report</a
+          >.
+        </li>
+        <li>
+          One thing to note was that I trained the Resnet on the CIFAR-10 Model
+          instead of ImageNet mostly due to time + compute constraints. ImageNet
+          is a large dataset and would require a lot of VRAM and also training
+          time.
+        </li>
+        <li>The training was done on a RTX4090, with torch==2.4.0.</li>
+        <li>
+          <strong>Results from the paper:</strong><br />
+          <img src="images/error_paper.png" alt="alt text" />
+        </li>
+        <li>
+          <strong>My results:</strong><br />
+          <img src="images/error_joe.png" alt="alt text" />
+        </li>
+        <li>
+          <strong>In detail:</strong> it is possible to observe that with
+          ResNet, deeper architectures do seem to provide better performance,
+          which obtains the motivation of the residual(skip) connections to be
+          able to retain identity mapping even with deep non-linear layers.<br />
+          <img src="images/error_joe_detailed.png" alt="alt text" />
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
