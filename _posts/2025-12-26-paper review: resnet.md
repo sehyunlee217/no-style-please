@@ -4,6 +4,7 @@ layout: post
 
 - Paper: https://arxiv.org/abs/1512.03385
 - Github: https://github.com/sehyunlee217/paper_implementations/tree/main/resnet
+- All tables/figures refer to the paper
 
 ### Paper Summary
 
@@ -112,7 +113,7 @@ class LinearProjection(nn.Module):
 
 #### Resnet 34
 
-- In the table above, for ResNet-34, **num_blocks = [3, 4, 6, 3], num_channels = [64, 128, 256, 512]**.
+- In **Table.1**, for ResNet-34, **num_blocks = [3, 4, 6, 3], num_channels = [64, 128, 256, 512]**.
 
 ```python
 class ResNet34(nn.Module):
@@ -186,7 +187,7 @@ class ResNet34(nn.Module):
 
 #### Bottleneck Block (CIFAR-10)
 
-- Similiar to original [left] block but added complexity by having different kernel sizes (bottleneck) structure [right].
+- From **figure 5**. we can see that the architecture is similiar to the original [left] block but added complexity by having different kernel sizes (bottleneck) structure [right].
 - Need to have additional channel for the bottleneck layers, but otherwise, remains the same.
 
 ```python
@@ -316,7 +317,7 @@ lass ResNetCifar10(nn.Module):
 
 #### Training Details (CIFAR-10)
 
-- Based on the table provided, `num_layers = [1 + 2 * config.N, 2 * config.N, 2 * config.N]`
+- Based on the table provided in **4.2. CIFAR-10 and Analysis**, `num_layers = [1 + 2 * config.N, 2 * config.N, 2 * config.N]`
 - "We use a weight decay of 0.0001 and momentum of 0.9" &rarr; `weight_decay": 1e-4, momentum=0.9`
 - "These models are trained with a mini-batch size of 128" &rarr; `"batch_size": 128`
 - "We start with a learning rate of 0.1, divide it by 10 at 32k and 48k iterations" &rarr; specific calculations are included in the code but need to use `optim.lr_scheduler.MultiStepLR(
@@ -334,6 +335,4 @@ transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),`
 - All detailed results can be found at the wandb [report](https://api.wandb.ai/links/leeseunghyun217-university-of-toronto/8jrwxidd).
 - One thing to note was that I trained the Resnet on the CIFAR-10 Model instead of ImageNet mostly due to time + compute constraints. ImageNet is a large dataset and would require a lot of VRAM and also training time.
 - The training was done on a RTX4090, with torch==2.4.0.
-- **Results from the paper:**
-- **My results:**
-- **In detail:** it is possible to observe that with ResNet, deeper architectures do seem to provide better performance, which obtains the motivation of the residual(skip) connections to be able to retain identity mapping even with deep non-linear layers.
+- **Conclusion:** it is possible to observe that with ResNet, deeper architectures do seem to provide better performance, which obtains the motivation of the residual(skip) connections to be able to retain identity mapping even with deep non-linear layers.

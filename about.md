@@ -7,7 +7,7 @@ Hi, I'm Joe (승현).
 
 I’m an Industrial Engineering student at the University of Toronto and an ML Research Intern at Huawei Canada.
 
-My current focus is at the intersection of Computer Vision (Huawei) and Reinforcement Learning (DORL Lab, UofT). I hope to work at the intersection of these two fields
+My current focus is on Computer Vision (Huawei) and Reinforcement Learning (DORL Lab, UofT). I hope to work at the intersection of these two fields
 in the future.
 
 I try to live by Charlie Munger's words of wisdom:
