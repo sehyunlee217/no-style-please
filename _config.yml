@@ -1,10 +1,9 @@
-title: no style, please! # name of the site
-author: Riccardo Graziosi # name of site's author
-email: riccardo.graziosi97@gmail.com # email of site's author
-url: https://riggraz.dev # root address of the site
+title: Joe (승현) Lee # name of the site
+author: Joe Lee # name of site's author
+email: # email of site's author
+url: # root address of the site
 baseurl: "/no-style-please" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
 description: > # description of the site (multiple lines allowed)
-  A (nearly) no-CSS, fast, minimalist Jekyll theme.
 
 permalink: /:slug.html
 
@@ -14,8 +13,8 @@ favicon: "logo.png" # name+extension of favicon (which must be put on the root f
 remote_theme: riggraz/no-style-please # if you are using GitHub Pages, change it to remote_theme: riggraz/no-style-please
 
 theme_config:
-  appearance: "auto" # can be "light", "dark" or "auto"
-  back_home_text: ".." # customize text for homepage link in post layout
+  appearance: "light" # can be "light", "dark" or "auto"
+  back_home_text: "back" # customize text for homepage link in post layout
   date_format: "%Y-%m-%d" # customize how date is formatted
   show_description: false # show blog description in home page
   lowercase_titles: true # show titles in lowercase in lists
@@ -35,3 +34,15 @@ jektex:
   macros:
     - ["\\Q", "\\mathbb{Q}"]
     - ["\\C", "\\mathbb{C}"]
+
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block_code_attr: 'class="highlight"'
+
+exclude:
+  - .jekyll-cache/
+  - .jektex-cache/ # Add this line
+  - _site/
+  - Gemfile
+  - Gemfile.lock
