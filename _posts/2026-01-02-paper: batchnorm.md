@@ -1,6 +1,6 @@
 ---
 layout: post
-redirect_to: "papers/batchnorm.html"
+redirect_to: "/papers/batchnorm.html"
 ---
 
 - Recommended: [Clean HTML formatted version]({{ site.baseurl }}papers/batchnorm.html)
