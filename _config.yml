@@ -26,6 +26,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jektex
+  - jekyll-redirect-from
 
 jektex:
   cache_dir: ".jektex-cache"

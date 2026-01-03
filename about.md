@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: about me
 ---
 
 Hi, I'm Joe (승현).

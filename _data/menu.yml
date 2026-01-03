@@ -10,7 +10,7 @@ entries:
       - title: "Research @ DORL Lab UofT"
       - title: "<a href='https://github.com/sehyunlee217'>github</a> & <a href='https://www.linkedin.com/in/joe-shyun-lee/'>linkedin</a>"
 
-  - title: blog
+  - title: blog (written by me; No LLMs used for this blog)
     post_list:
       limit: 5
       show_more: true

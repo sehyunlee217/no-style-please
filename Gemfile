@@ -8,5 +8,5 @@ gem "csv"
 gem "bigdecimal"
 gem "base64"
 gem "logger"
-
+gem "jekyll-redirect-from"
 gemspec

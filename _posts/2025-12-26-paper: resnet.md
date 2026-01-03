@@ -1,5 +1,6 @@
 ---
 layout: post
+redirect_to: "papers/resnet.html"
 ---
 
 - Recommended: [Clean HTML formatted version]({{ site.baseurl }}papers/resnet.html)
