@@ -12,7 +12,10 @@ entries:
 
   - title: blog
     post_list:
-      limit: 5
+      limit: 10
       show_more: true
       show_more_text: past posts...
       show_more_url: archive.html
+
+  - title: cafe recommendations
+    url: cafe_recs
