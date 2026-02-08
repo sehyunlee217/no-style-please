@@ -1,0 +1,2841 @@
+<!doctype html>
+<html>
+  <head>
+    <title>transformer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+
+    <style>
+      code[class*="language-"],
+      pre[class*="language-"] {
+        color: #333;
+        background: 0 0;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.4;
+        -moz-tab-size: 8;
+        -o-tab-size: 8;
+        tab-size: 8;
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+      }
+      pre[class*="language-"] {
+        padding: 0.8em;
+        overflow: auto;
+        border-radius: 3px;
+        background: #f5f5f5;
+      }
+      :not(pre) > code[class*="language-"] {
+        padding: 0.1em;
+        border-radius: 0.3em;
+        white-space: normal;
+        background: #f5f5f5;
+      }
+      .token.blockquote,
+      .token.comment {
+        color: #969896;
+      }
+      .token.cdata {
+        color: #183691;
+      }
+      .token.doctype,
+      .token.macro.property,
+      .token.punctuation,
+      .token.variable {
+        color: #333;
+      }
+      .token.builtin,
+      .token.important,
+      .token.keyword,
+      .token.operator,
+      .token.rule {
+        color: #a71d5d;
+      }
+      .token.attr-value,
+      .token.regex,
+      .token.string,
+      .token.url {
+        color: #183691;
+      }
+      .token.atrule,
+      .token.boolean,
+      .token.code,
+      .token.command,
+      .token.constant,
+      .token.entity,
+      .token.number,
+      .token.property,
+      .token.symbol {
+        color: #0086b3;
+      }
+      .token.prolog,
+      .token.selector,
+      .token.tag {
+        color: #63a35c;
+      }
+      .token.attr-name,
+      .token.class,
+      .token.class-name,
+      .token.function,
+      .token.id,
+      .token.namespace,
+      .token.pseudo-class,
+      .token.pseudo-element,
+      .token.url-reference .token.variable {
+        color: #795da3;
+      }
+      .token.entity {
+        cursor: help;
+      }
+      .token.title,
+      .token.title .token.punctuation {
+        font-weight: 700;
+        color: #1d3e81;
+      }
+      .token.list {
+        color: #ed6a43;
+      }
+      .token.inserted {
+        background-color: #eaffea;
+        color: #55a532;
+      }
+      .token.deleted {
+        background-color: #ffecec;
+        color: #bd2c00;
+      }
+      .token.bold {
+        font-weight: 700;
+      }
+      .token.italic {
+        font-style: italic;
+      }
+      .language-json .token.property {
+        color: #183691;
+      }
+      .language-markup .token.tag .token.punctuation {
+        color: #333;
+      }
+      .language-css .token.function,
+      code.language-css {
+        color: #0086b3;
+      }
+      .language-yaml .token.atrule {
+        color: #63a35c;
+      }
+      code.language-yaml {
+        color: #183691;
+      }
+      .language-ruby .token.function {
+        color: #333;
+      }
+      .language-markdown .token.url {
+        color: #795da3;
+      }
+      .language-makefile .token.symbol {
+        color: #795da3;
+      }
+      .language-makefile .token.variable {
+        color: #183691;
+      }
+      .language-makefile .token.builtin {
+        color: #0086b3;
+      }
+      .language-bash .token.keyword {
+        color: #0086b3;
+      }
+      pre[data-line] {
+        position: relative;
+        padding: 1em 0 1em 3em;
+      }
+      pre[data-line] .line-highlight-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        display: block;
+        width: 100%;
+      }
+      pre[data-line] .line-highlight {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding: inherit 0;
+        margin-top: 1em;
+        background: hsla(24, 20%, 50%, 0.08);
+        background: linear-gradient(
+          to right,
+          hsla(24, 20%, 50%, 0.1) 70%,
+          hsla(24, 20%, 50%, 0)
+        );
+        pointer-events: none;
+        line-height: inherit;
+        white-space: pre;
+      }
+      pre[data-line] .line-highlight:before,
+      pre[data-line] .line-highlight[data-end]:after {
+        content: attr(data-start);
+        position: absolute;
+        top: 0.4em;
+        left: 0.6em;
+        min-width: 1em;
+        padding: 0 0.5em;
+        background-color: hsla(24, 20%, 50%, 0.4);
+        color: #f4f1ef;
+        font: bold 65%/1.5 sans-serif;
+        text-align: center;
+        vertical-align: 0.3em;
+        border-radius: 999px;
+        text-shadow: none;
+        box-shadow: 0 1px #fff;
+      }
+      pre[data-line] .line-highlight[data-end]:after {
+        content: attr(data-end);
+        top: auto;
+        bottom: 0.4em;
+      }
+      html body {
+        font-family:
+          "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        background-color: #fff;
+        overflow: initial;
+        box-sizing: border-box;
+        word-wrap: break-word;
+      }
+      html body > :first-child {
+        margin-top: 0;
+      }
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body h5,
+      html body h6 {
+        line-height: 1.2;
+        margin-top: 1em;
+        margin-bottom: 16px;
+        color: #000;
+      }
+      html body h1 {
+        font-size: 2.25em;
+        font-weight: 300;
+        padding-bottom: 0.3em;
+      }
+      html body h2 {
+        font-size: 1.75em;
+        font-weight: 400;
+        padding-bottom: 0.3em;
+      }
+      html body h3 {
+        font-size: 1.5em;
+        font-weight: 500;
+      }
+      html body h4 {
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      html body h5 {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+      html body h6 {
+        font-size: 1em;
+        font-weight: 600;
+      }
+      html body h1,
+      html body h2,
+      html body h3,
+      html body h4,
+      html body h5 {
+        font-weight: 600;
+      }
+      html body h5 {
+        font-size: 1em;
+      }
+      html body h6 {
+        color: #5c5c5c;
+      }
+      html body strong {
+        color: #000;
+      }
+      html body del {
+        color: #5c5c5c;
+      }
+      html body a:not([href]) {
+        color: inherit;
+        text-decoration: none;
+      }
+      html body a {
+        color: #08c;
+        text-decoration: none;
+      }
+      html body a:hover {
+        color: #00a3f5;
+        text-decoration: none;
+      }
+      html body img {
+        max-width: 100%;
+      }
+      html body > p {
+        margin-top: 0;
+        margin-bottom: 16px;
+        word-wrap: break-word;
+      }
+      html body > ol,
+      html body > ul {
+        margin-bottom: 16px;
+      }
+      html body ol,
+      html body ul {
+        padding-left: 2em;
+      }
+      html body ol.no-list,
+      html body ul.no-list {
+        padding: 0;
+        list-style-type: none;
+      }
+      html body ol ol,
+      html body ol ul,
+      html body ul ol,
+      html body ul ul {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      html body li {
+        margin-bottom: 0;
+      }
+      html body li.task-list-item {
+        list-style: none;
+      }
+      html body li > p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      html body .task-list-item-checkbox {
+        margin: 0 0.2em 0.25em -1.8em;
+        vertical-align: middle;
+      }
+      html body .task-list-item-checkbox:hover {
+        cursor: pointer;
+      }
+      html body blockquote {
+        margin: 16px 0;
+        font-size: inherit;
+        padding: 0 15px;
+        color: #5c5c5c;
+        background-color: #f0f0f0;
+        border-left: 4px solid #d6d6d6;
+      }
+      html body blockquote > :first-child {
+        margin-top: 0;
+      }
+      html body blockquote > :last-child {
+        margin-bottom: 0;
+      }
+      html body hr {
+        height: 4px;
+        margin: 32px 0;
+        background-color: #d6d6d6;
+        border: 0 none;
+      }
+      html body table {
+        margin: 10px 0 15px 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        display: block;
+        width: 100%;
+        overflow: auto;
+        word-break: normal;
+        word-break: keep-all;
+      }
+      html body table th {
+        font-weight: 700;
+        color: #000;
+      }
+      html body table td,
+      html body table th {
+        border: 1px solid #d6d6d6;
+        padding: 6px 13px;
+      }
+      html body dl {
+        padding: 0;
+      }
+      html body dl dt {
+        padding: 0;
+        margin-top: 16px;
+        font-size: 1em;
+        font-style: italic;
+        font-weight: 700;
+      }
+      html body dl dd {
+        padding: 0 16px;
+        margin-bottom: 16px;
+      }
+      html body code {
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-size: 0.85em;
+        color: #000;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+        padding: 0.2em 0;
+      }
+      html body code::after,
+      html body code::before {
+        letter-spacing: -0.2em;
+        content: "\00a0";
+      }
+      html body pre > code {
+        padding: 0;
+        margin: 0;
+        word-break: normal;
+        white-space: pre;
+        background: 0 0;
+        border: 0;
+      }
+      html body .highlight {
+        margin-bottom: 16px;
+      }
+      html body .highlight pre,
+      html body pre {
+        padding: 1em;
+        overflow: auto;
+        line-height: 1.45;
+        border: #d6d6d6;
+        border-radius: 3px;
+      }
+      html body .highlight pre {
+        margin-bottom: 0;
+        word-break: normal;
+      }
+      html body pre code,
+      html body pre tt {
+        display: inline;
+        max-width: initial;
+        padding: 0;
+        margin: 0;
+        overflow: initial;
+        line-height: inherit;
+        word-wrap: normal;
+        background-color: transparent;
+        border: 0;
+      }
+      html body pre code:after,
+      html body pre code:before,
+      html body pre tt:after,
+      html body pre tt:before {
+        content: normal;
+      }
+      html body blockquote,
+      html body dl,
+      html body ol,
+      html body p,
+      html body pre,
+      html body ul {
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+      html body kbd {
+        color: #000;
+        border: 1px solid #d6d6d6;
+        border-bottom: 2px solid #c7c7c7;
+        padding: 2px 4px;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+      }
+      @media print {
+        html body {
+          background-color: #fff;
+        }
+        html body h1,
+        html body h2,
+        html body h3,
+        html body h4,
+        html body h5,
+        html body h6 {
+          color: #000;
+          page-break-after: avoid;
+        }
+        html body blockquote {
+          color: #5c5c5c;
+        }
+        html body pre {
+          page-break-inside: avoid;
+        }
+        html body table {
+          display: table;
+        }
+        html body img {
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+        }
+        html body code,
+        html body pre {
+          word-wrap: break-word;
+          white-space: pre;
+        }
+      }
+      .markdown-preview {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .markdown-preview ul {
+        list-style: disc;
+      }
+      .markdown-preview ul ul {
+        list-style: circle;
+      }
+      .markdown-preview ul ul ul {
+        list-style: square;
+      }
+      .markdown-preview ol {
+        list-style: decimal;
+      }
+      .markdown-preview ol ol,
+      .markdown-preview ul ol {
+        list-style-type: lower-roman;
+      }
+      .markdown-preview ol ol ol,
+      .markdown-preview ol ul ol,
+      .markdown-preview ul ol ol,
+      .markdown-preview ul ul ol {
+        list-style-type: lower-alpha;
+      }
+      .markdown-preview .newpage,
+      .markdown-preview .pagebreak {
+        page-break-before: always;
+      }
+      .markdown-preview pre.line-numbers {
+        position: relative;
+        padding-left: 3.8em;
+        counter-reset: linenumber;
+      }
+      .markdown-preview pre.line-numbers > code {
+        position: relative;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows {
+        position: absolute;
+        pointer-events: none;
+        top: 1em;
+        font-size: 100%;
+        left: 0;
+        width: 3em;
+        letter-spacing: -1px;
+        border-right: 1px solid #999;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+      }
+      .markdown-preview pre.line-numbers .line-numbers-rows > span:before {
+        content: counter(linenumber);
+        color: #999;
+        display: block;
+        padding-right: 0.8em;
+        text-align: right;
+      }
+      .markdown-preview .mathjax-exps .MathJax_Display {
+        text-align: center !important;
+      }
+      .markdown-preview:not([data-for="preview"])
+        .code-chunk
+        .code-chunk-btn-group {
+        display: none;
+      }
+      .markdown-preview:not([data-for="preview"]) .code-chunk .status {
+        display: none;
+      }
+      .markdown-preview:not([data-for="preview"]) .code-chunk .output-div {
+        margin-bottom: 16px;
+      }
+      .markdown-preview .md-toc {
+        padding: 0;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link {
+        display: inline;
+        padding: 0.25rem 0;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,
+      .markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p {
+        display: inline;
+      }
+      .markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link {
+        font-weight: 800;
+      }
+      .scrollbar-style::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scrollbar-style::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: transparent;
+      }
+      .scrollbar-style::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(150, 150, 150, 0.66);
+        border: 4px solid rgba(150, 150, 150, 0.66);
+        background-clip: content-box;
+      }
+      html body[for="html-export"]:not([data-presentation-mode]) {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode])
+        .markdown-preview {
+        position: relative;
+        top: 0;
+        min-height: 100vh;
+      }
+      @media screen and (min-width: 914px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          padding: 2em calc(50% - 457px + 2em);
+        }
+      }
+      @media screen and (max-width: 914px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          padding: 2em;
+        }
+      }
+      @media screen and (max-width: 450px) {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          .markdown-preview {
+          font-size: 14px !important;
+          padding: 1em;
+        }
+      }
+      @media print {
+        html
+          body[for="html-export"]:not([data-presentation-mode])
+          #sidebar-toc-btn {
+          display: none;
+        }
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode])
+        #sidebar-toc-btn {
+        position: fixed;
+        bottom: 8px;
+        left: 8px;
+        font-size: 28px;
+        cursor: pointer;
+        color: inherit;
+        z-index: 99;
+        width: 32px;
+        text-align: center;
+        opacity: 0.4;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        #sidebar-toc-btn {
+        opacity: 1;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 100%;
+        padding: 32px 0 48px 0;
+        font-size: 14px;
+        box-shadow: 0 0 4px rgba(150, 150, 150, 0.33);
+        box-sizing: border-box;
+        overflow: auto;
+        background-color: inherit;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar {
+        width: 8px;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar-track {
+        border-radius: 10px;
+        background-color: transparent;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(150, 150, 150, 0.66);
+        border: 4px solid rgba(150, 150, 150, 0.66);
+        background-clip: content-box;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        a {
+        text-decoration: none;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc {
+        padding: 0 16px;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link {
+        display: inline;
+        padding: 0.25rem 0;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link
+        div,
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper
+        .md-toc-link
+        p {
+        display: inline;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .md-sidebar-toc
+        .md-toc
+        .md-toc-link-wrapper.highlighted
+        .md-toc-link {
+        font-weight: 800;
+      }
+      html
+        body[for="html-export"]:not(
+          [data-presentation-mode]
+        )[html-show-sidebar-toc]
+        .markdown-preview {
+        left: 300px;
+        width: calc(100% - 300px);
+        padding: 2em calc(50% - 457px - 300px / 2);
+        margin: 0;
+        box-sizing: border-box;
+      }
+      @media screen and (max-width: 1274px) {
+        html
+          body[for="html-export"]:not(
+            [data-presentation-mode]
+          )[html-show-sidebar-toc]
+          .markdown-preview {
+          padding: 2em;
+        }
+      }
+      @media screen and (max-width: 450px) {
+        html
+          body[for="html-export"]:not(
+            [data-presentation-mode]
+          )[html-show-sidebar-toc]
+          .markdown-preview {
+          width: 100%;
+        }
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode]):not(
+          [html-show-sidebar-toc]
+        )
+        .markdown-preview {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      html
+        body[for="html-export"]:not([data-presentation-mode]):not(
+          [html-show-sidebar-toc]
+        )
+        .md-sidebar-toc {
+        display: none;
+      }
+      /* Please visit the URL below for more information: */
+      /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+    </style>
+    <!-- The content below will be included at the end of the <head> element. -->
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        // your code here
+      });
+    </script>
+  </head>
+  <body for="html-export">
+    <div class="crossnote markdown-preview">
+      <ul>
+        <li>
+          Paper:
+          <a href="https://arxiv.org/pdf/1706.03762"
+            >https://arxiv.org/pdf/1706.03762</a
+          >
+        </li>
+        <li>
+          The Annotated Transformer:
+          <a href="https://nlp.seas.harvard.edu/annotated-transformer/"
+            >https://nlp.seas.harvard.edu/annotated-transformer/</a
+          >
+        </li>
+        <li>This is the <em>Transformer</em> part of the series.</li>
+        <li>
+          Let's dive right into Transformers continuing from the previous post.
+        </li>
+      </ul>
+      <h3 id="transformer-architecture">Transformer Architecture</h3>
+      <ul>
+        <li>
+          Assuming we now understand how Multi-Head Attention work, let's try to
+          implement the actual architecture of the model.<br />
+          <img src="images/transformer.png" alt="alt text" />
+        </li>
+        <li>
+          Here we first predefine the <code>LayerNorm</code> module from my
+          previous post; though here they added learnable coefficients for the
+          output of the layer norm: <code>a_2</code>, <code>b_2</code>.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">LayerNorm</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> features<span class="token punctuation">,</span> eps<span class="token operator">=</span><span class="token number">1e-6</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>eps <span class="token operator">=</span> eps
+        self<span class="token punctuation">.</span>a_2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Parameter<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>features<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>b_2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Parameter<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>features<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        batch_size<span class="token punctuation">,</span> length<span class="token punctuation">,</span> feature_dim <span class="token operator">=</span> x<span class="token punctuation">.</span>shape
+        output <span class="token operator">=</span> torch<span class="token punctuation">.</span>zeros_like<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+
+        <span class="token comment"># dim=-1 so we squish along last idx(feature_dim)</span>
+        <span class="token comment"># keep_dim=True so we get (batch_size, length, 1)</span>
+        mu <span class="token operator">=</span> x<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keep_dim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        var <span class="token operator">=</span> x<span class="token punctuation">.</span>var<span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> keep_dim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+        output <span class="token operator">=</span> self<span class="token punctuation">.</span>a_2 <span class="token operator">*</span> <span class="token punctuation">(</span>x <span class="token operator">-</span> mu<span class="token punctuation">)</span> <span class="token operator">/</span> torch<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>var <span class="token operator">+</span> self<span class="token punctuation">.</span>eps<span class="token punctuation">)</span> <span class="token operator">+</span> self<span class="token punctuation">.</span>b_2
+
+        <span class="token keyword keyword-return">return</span> output
+</code></pre>
+      <ul>
+        <li>
+          The left block of the architecture is called the
+          <strong>encoder</strong> and we will start from here.
+        </li>
+      </ul>
+      <h4 id="encoder">Encoder</h4>
+      <ul>
+        <li>
+          If you look at the encoder, there are
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>N</mi><mo>×</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >N \times</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.7667em; vertical-align: -0.0833em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.10903em"
+                  >N</span
+                ><span class="mord">×</span></span
+              ></span
+            ></span
+          >
+          for each of the blocks in the architecture, which stands for needing
+          multiple copies of those blocks. We use the iterator pattern +
+          <code>nn.ModuleList</code> here to do so.
+        </li>
+        <li>
+          If you are not familiar with <code>nn.ModuleList</code>, it's a way to
+          store a list of <code>nn.Module</code>, which is if you recall the is
+          <code>ABC</code>(Abstract Base Class) that we inherit when creating
+          PyTorch models.
+        </li>
+        <li>
+          We also conduct a <code>LayerNorm</code> for the output of the encoder
+          block.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">Encoder</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> layer<span class="token punctuation">,</span> N<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>layers <span class="token operator">=</span> nn<span class="token punctuation">.</span>ModuleList<span class="token punctuation">(</span><span class="token punctuation">[</span>copy<span class="token punctuation">.</span>deepcopy<span class="token punctuation">(</span>layer<span class="token punctuation">)</span> <span class="token keyword keyword-for">for</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>norm <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>layer<span class="token punctuation">.</span>size<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> mask<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> layer <span class="token keyword keyword-in">in</span> self<span class="token punctuation">.</span>layers<span class="token punctuation">:</span>
+            x <span class="token operator">=</span> layer<span class="token punctuation">(</span>x<span class="token punctuation">,</span> mask<span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>norm<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+</code></pre>
+      <ul>
+        <li>
+          <em>Note</em> that in the diagram, the <code>LayerNorm()</code> goes
+          after the sublayers, which is called <strong>Post-LayerNorm</strong>.
+          However, more recent implementations use
+          <strong>Pre-LayerNorm</strong>, which means that it is applied before
+          the sublayer, which is what we follow here.
+        </li>
+        <li>
+          We can also notice that there is a
+          <strong>skip-connection</strong> right after the Multi-Head-Attention
+          block, which we actually implemented from the ResNet paper before!
+        </li>
+        <li>
+          After the MHA block, we pass it to the feed forward sublayer at this
+          point.
+        </li>
+        <li>
+          At this point, a something you should be thinking of is the dimensions
+          at each pass through the encoder.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">EncoderLayer</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> size<span class="token punctuation">,</span> self_attn<span class="token punctuation">,</span> feed_forward<span class="token punctuation">,</span> dropout<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>self_attn <span class="token operator">=</span> self_attn
+        self<span class="token punctuation">.</span>feed_forward <span class="token operator">=</span> feed_forward
+        self<span class="token punctuation">.</span>size <span class="token operator">=</span> size
+        
+        self<span class="token punctuation">.</span>norm1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>size<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>norm2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>size<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>dropout <span class="token operator">=</span> nn<span class="token punctuation">.</span>Dropout<span class="token punctuation">(</span>dropout<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># Multi-Head-Attention Sublayer (Pre-LN)</span>
+        norm_x <span class="token operator">=</span> self<span class="token punctuation">.</span>norm1<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        attn_out <span class="token operator">=</span> self<span class="token punctuation">.</span>self_attn<span class="token punctuation">(</span>norm_x<span class="token punctuation">,</span> norm_x<span class="token punctuation">,</span> norm_x<span class="token punctuation">,</span> mask<span class="token punctuation">)</span>
+        <span class="token comment"># Notice this is the residual/skip connection from ResNet!</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>attn_out<span class="token punctuation">)</span>
+
+        <span class="token comment"># Feed Forward Sublayer (Pre-LN)</span>
+        norm_x <span class="token operator">=</span> self<span class="token punctuation">.</span>norm2<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        ff_out <span class="token operator">=</span> self<span class="token punctuation">.</span>feed_forward<span class="token punctuation">(</span>norm_x<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>ff_out<span class="token punctuation">)</span>
+        
+        <span class="token keyword keyword-return">return</span> x
+</code></pre>
+      <ul>
+        <li>
+          So let's go through it as an example. Say our input embeddings are in
+          the shape <code>[batch, seq_len, emb_len]</code> or
+          <code>[32, 128, 512]</code> if numbers makes more sense.
+        </li>
+        <li>
+          When we conduct <code>LayerNorm</code> on <code>x</code>.
+          <code>LayerNorm</code> actually returns the same dimension as its
+          input so we're still at <code>[batch, seq_len, emb_len]</code> after
+          the first <code>self.norm1(x)</code>.
+        </li>
+        <li>
+          Now we pass this through our MHA block. We know that our attention
+          output from the MHA block is actually identical to its input dimension
+          so it's still at <code>[batch, seq_len, emb_len]</code>!
+        </li>
+        <li>
+          The feedforward network is a bit different, which we will explain
+          here.
+        </li>
+      </ul>
+      <h4 id="feedforward-networks-ffn">FeedForward Networks (FFN)</h4>
+      <ul>
+        <li>
+          The FFN is applied in both the Encoder and Decoder block and consists
+          of two linear transformations with a <code>ReLU()</code> in between.
+          The dimension goes from <code>d_model</code> to <code>d_ff</code> back
+          to <code>d_model</code>, where <code>d_ff</code> is much larger than
+          <code>d_model</code>.
+        </li>
+        <li>
+          What we achieve with FNN is: Based on the new features that contain
+          context that we learned from attention, we project these features into
+          a higher dimension and try to learn the features, then compress the
+          information back.
+        </li>
+        <li>
+          Ultimately, because the attention mechanism is a Linear Combination,
+          we need to introduce Non-Linearity to approximate non-linear patterns
+          that lie in the feature space.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">PositionwiseFeedForward</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> d_model<span class="token punctuation">,</span> d_ff<span class="token punctuation">,</span> dropout<span class="token operator">=</span><span class="token number">0.1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>w_1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> d_ff<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>w_2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span>d_ff<span class="token punctuation">,</span> d_model<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>dropout <span class="token operator">=</span> nn<span class="token punctuation">.</span>Dropout<span class="token punctuation">(</span>dropout<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>w_2<span class="token punctuation">(</span>self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>self<span class="token punctuation">.</span>w_1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>relu<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+      <ul>
+        <li>
+          But back to the dimensions, because we the input dimension is equal to
+          the output dimension of the FNN, we would get
+          <code>[batch, seq_len, emb_len]</code> as the output of the encoder.
+        </li>
+      </ul>
+      <h4 id="positional-encoding-pe">Positional Encoding (PE)</h4>
+      <ul>
+        <li>
+          Talking about position-wise FFN, we also have to mention the
+          positional encoding part of the input of the model.
+        </li>
+        <li>
+          Because we are processing the embeddings in parallel, unlike a RNN, we
+          don't have a sense of sequence of the data. Therefore, we need to add
+          something to make sure the positions of the words are preserved for
+          the words in the sentence.
+        </li>
+        <li>
+          We use sinusoidal functions to represent this quality. Here is a great
+          <a href="https://huggingface.co/blog/designing-positional-encoding"
+            >blog post</a
+          >
+          from HF that explains PE in detail that I recommend you to take a
+          look.
+        </li>
+        <li>But in summary,</li>
+      </ul>
+      <blockquote>
+        <p>
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>P</mi
+                    ><msub
+                      ><mi>E</mi
+                      ><mrow
+                        ><mo stretchy="false">(</mo><mi>p</mi><mi>o</mi
+                        ><mi>s</mi><mo separator="true">,</mo><mn>2</mn
+                        ><mi>i</mi><mo stretchy="false">)</mo></mrow
+                      ></msub
+                    ><mo>=</mo><mi>s</mi><mi>i</mi><mi>n</mi
+                    ><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub
+                    ><mo stretchy="false">(</mo><mi>p</mi><mi>o</mi><mi>s</mi
+                    ><mo stretchy="false">)</mo
+                    ><mo stretchy="false">)</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >PE_{(pos,2i)} = sin(w_{i} (pos))</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1.0385em; vertical-align: -0.3552em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                  >P</span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.05764em"
+                    >E</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3448em"
+                          ><span
+                            style="
+                              top: -2.5198em;
+                              margin-left: -0.0576em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mopen mtight">(</span
+                                ><span class="mord mathnormal mtight">p</span
+                                ><span class="mord mathnormal mtight">os</span
+                                ><span class="mpunct mtight">,</span
+                                ><span class="mord mtight">2</span
+                                ><span class="mord mathnormal mtight">i</span
+                                ><span class="mclose mtight">)</span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3552em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal">s</span
+                ><span class="mord mathnormal">in</span
+                ><span class="mopen">(</span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.02691em"
+                    >w</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.0269em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span
+                ><span class="mclose">))</span></span
+              ></span
+            ></span
+          ><br />
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>P</mi
+                    ><msub
+                      ><mi>E</mi
+                      ><mrow
+                        ><mo stretchy="false">(</mo><mi>p</mi><mi>o</mi
+                        ><mi>s</mi><mo separator="true">,</mo><mn>2</mn
+                        ><mi>i</mi><mo>+</mo><mn>1</mn
+                        ><mo stretchy="false">)</mo></mrow
+                      ></msub
+                    ><mo>=</mo><mi>c</mi><mi>o</mi><mi>s</mi
+                    ><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub
+                    ><mo stretchy="false">(</mo><mi>p</mi><mi>o</mi><mi>s</mi
+                    ><mo stretchy="false">)</mo
+                    ><mo stretchy="false">)</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >PE_{(pos,2i+1)} = cos(w_{i} (pos))</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1.0385em; vertical-align: -0.3552em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.13889em"
+                  >P</span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.05764em"
+                    >E</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3448em"
+                          ><span
+                            style="
+                              top: -2.5198em;
+                              margin-left: -0.0576em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mopen mtight">(</span
+                                ><span class="mord mathnormal mtight">p</span
+                                ><span class="mord mathnormal mtight">os</span
+                                ><span class="mpunct mtight">,</span
+                                ><span class="mord mtight">2</span
+                                ><span class="mord mathnormal mtight">i</span
+                                ><span class="mbin mtight">+</span
+                                ><span class="mord mtight">1</span
+                                ><span class="mclose mtight">)</span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3552em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal">cos</span
+                ><span class="mopen">(</span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.02691em"
+                    >w</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.0269em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span
+                ><span class="mclose">))</span></span
+              ></span
+            ></span
+          >
+        </p>
+      </blockquote>
+      <ul>
+        <li>
+          where
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub><mi>w</mi><mi>i</mi></msub
+                    ><mo>=</mo
+                    ><mfrac
+                      ><mn>1</mn
+                      ><msup
+                        ><mn>10000</mn
+                        ><mrow
+                          ><mrow><mn>2</mn><mi>i</mi></mrow
+                          ><mi mathvariant="normal">/</mi
+                          ><msub
+                            ><mi>d</mi
+                            ><mrow
+                              ><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi
+                              ><mi>l</mi></mrow
+                            ></msub
+                          ></mrow
+                        ></msup
+                      ></mfrac
+                    ></mrow
+                  ><annotation encoding="application/x-tex"
+                    >w_{i} = \frac{1}{10000^{{2i}/{d_{model}}}}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.5806em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.02691em"
+                    >w</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.0269em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1.2804em; vertical-align: -0.4352em"
+                ></span
+                ><span class="mord"
+                  ><span class="mopen nulldelimiter"></span
+                  ><span class="mfrac"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.8451em"
+                          ><span style="top: -2.5648em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mtight">1000</span
+                                ><span class="mord mtight"
+                                  ><span class="mord mtight">0</span
+                                  ><span class="msupsub"
+                                    ><span class="vlist-t"
+                                      ><span class="vlist-r"
+                                        ><span
+                                          class="vlist"
+                                          style="height: 0.8932em"
+                                          ><span
+                                            style="
+                                              top: -2.8932em;
+                                              margin-right: 0.0714em;
+                                            "
+                                            ><span
+                                              class="pstrut"
+                                              style="height: 2.5357em"
+                                            ></span
+                                            ><span
+                                              class="sizing reset-size3 size1 mtight"
+                                              ><span class="mord mtight"
+                                                ><span class="mord mtight"
+                                                  ><span class="mord mtight"
+                                                    >2</span
+                                                  ><span
+                                                    class="mord mathnormal mtight"
+                                                    >i</span
+                                                  ></span
+                                                ><span class="mord mtight"
+                                                  >/</span
+                                                ><span class="mord mtight"
+                                                  ><span class="mord mtight"
+                                                    ><span
+                                                      class="mord mathnormal mtight"
+                                                      >d</span
+                                                    ><span class="msupsub"
+                                                      ><span
+                                                        class="vlist-t vlist-t2"
+                                                        ><span class="vlist-r"
+                                                          ><span
+                                                            class="vlist"
+                                                            style="
+                                                              height: 0.3448em;
+                                                            "
+                                                            ><span
+                                                              style="
+                                                                top: -2.3448em;
+                                                                margin-left: 0em;
+                                                                margin-right: 0.1em;
+                                                              "
+                                                              ><span
+                                                                class="pstrut"
+                                                                style="
+                                                                  height: 2.6944em;
+                                                                "
+                                                              ></span
+                                                              ><span
+                                                                class="mord mtight"
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  >m</span
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  >o</span
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  >d</span
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  >e</span
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  style="
+                                                                    margin-right: 0.01968em;
+                                                                  "
+                                                                  >l</span
+                                                                ></span
+                                                              ></span
+                                                            ></span
+                                                          ><span class="vlist-s"
+                                                            >​</span
+                                                          ></span
+                                                        ><span class="vlist-r"
+                                                          ><span
+                                                            class="vlist"
+                                                            style="
+                                                              height: 0.3496em;
+                                                            "
+                                                            ><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span
+                          ><span style="top: -3.23em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span
+                              class="frac-line"
+                              style="border-bottom-width: 0.04em"
+                            ></span></span
+                          ><span style="top: -3.394em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mtight">1</span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.4352em"
+                          ><span></span></span></span></span></span
+                  ><span
+                    class="mclose nulldelimiter"
+                  ></span></span></span></span
+          ></span>
+          and
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>i</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >i</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6595em"></span
+                ><span class="mord mathnormal">i</span></span
+              ></span
+            ></span
+          >
+          represents the embedding dimension, and
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>p</mi><mi>o</mi><mi>s</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >pos</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.625em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span></span
+              ></span
+            ></span
+          >
+          the position in the sentence.
+        </li>
+        <li>
+          To have an understanding of how this works, note that
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub><mi>w</mi><mi>i</mi></msub></mrow
+                  ><annotation encoding="application/x-tex"
+                    >w_{i}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.5806em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.02691em"
+                    >w</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.0269em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span></span></span
+          ></span>
+          is decreasing as
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>i</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >i</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6595em"></span
+                ><span class="mord mathnormal">i</span></span
+              ></span
+            ></span
+          >
+          increases.
+        </li>
+        <li>
+          Therefore, for different values of
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>i</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >i</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6595em"></span
+                ><span class="mord mathnormal">i</span></span
+              ></span
+            ></span
+          >, the frequency of the sinusoidal functions (<span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub><mi>w</mi><mi>i</mi></msub></mrow
+                  ><annotation encoding="application/x-tex"
+                    >w_{i}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.5806em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.02691em"
+                    >w</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.0269em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span></span></span></span
+          >) will be unique; allowing each position to have a unique positional
+          vector of values between 0 and 1 assigned to them.
+        </li>
+        <li>
+          Then, for a single
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>p</mi><mi>o</mi><mi>s</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >pos</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.625em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span></span
+              ></span
+            ></span
+          >, we have a vector of
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>i</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >i</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6595em"></span
+                ><span class="mord mathnormal">i</span></span
+              ></span
+            ></span
+          >
+          different values that are added to the original input embeddings.
+        </li>
+        <li>
+          But how do these embeddings actually capture the meaning of position
+          of the words and won't it dilute the actual context of the original
+          embeddings
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>x</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >x</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.4306em"></span
+                ><span class="mord mathnormal">x</span></span
+              ></span
+            ></span
+          >
+          for attention?
+        </li>
+        <li>
+          The full proof is in the
+          <a href="https://huggingface.co/blog/designing-positional-encoding"
+            >blog post</a
+          >
+          but when we actually compute the attention score between the two
+          embeddings at
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>p</mi><mi>o</mi><mi>s</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >pos</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.625em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span></span
+              ></span
+            ></span
+          >
+          and
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>p</mi><mi>o</mi><mi>s</mi><mo>+</mo><mi>k</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >pos + k</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.7778em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span
+                ><span class="mspace" style="margin-right: 0.2222em"></span
+                ><span class="mbin">+</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2222em"
+                ></span></span
+              ><span class="base"
+                ><span class="strut" style="height: 0.6944em"></span
+                ><span class="mord mathnormal" style="margin-right: 0.03148em"
+                  >k</span
+                ></span
+              ></span
+            ></span
+          >, the resulting transformation gives
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo><mi>p</mi
+                    ><mi>o</mi><mi>s</mi><mo>+</mo><mi>k</mi
+                    ><mo stretchy="false">)</mo><mo>=</mo
+                    ><msub><mi>M</mi><mi>k</mi></msub
+                    ><mo>⋅</mo><mi>P</mi><mi>E</mi><mo stretchy="false">(</mo
+                    ><mi>p</mi><mi>o</mi><mi>s</mi
+                    ><mo stretchy="false">)</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >PE(pos +k) = M_{k} \cdot PE(pos)</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.05764em"
+                  >PE</span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span
+                ><span class="mspace" style="margin-right: 0.2222em"></span
+                ><span class="mbin">+</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2222em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.03148em"
+                  >k</span
+                ><span class="mclose">)</span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.8333em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.10903em"
+                    >M</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3361em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.109em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span
+                                  class="mord mathnormal mtight"
+                                  style="margin-right: 0.03148em"
+                                  >k</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mspace" style="margin-right: 0.2222em"></span
+                ><span class="mbin">⋅</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2222em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal" style="margin-right: 0.05764em"
+                  >PE</span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span
+                ><span class="mclose">)</span></span
+              ></span
+            ></span
+          >, where
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub><mi>M</mi><mi>k</mi></msub></mrow
+                  ><annotation encoding="application/x-tex"
+                    >M_{k}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.8333em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.10903em"
+                    >M</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3361em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.109em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span
+                                  class="mord mathnormal mtight"
+                                  style="margin-right: 0.03148em"
+                                  >k</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span></span></span
+          ></span>
+          is a rotation matrix that only depends on
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>k</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >k</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6944em"></span
+                ><span class="mord mathnormal" style="margin-right: 0.03148em"
+                  >k</span
+                ></span
+              ></span
+            ></span
+          >, not on
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mi>p</mi><mi>o</mi><mi>s</mi></mrow
+                  ><annotation encoding="application/x-tex"
+                    >pos</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.625em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">p</span
+                ><span class="mord mathnormal">os</span></span
+              ></span
+            ></span
+          >.
+        </li>
+        <li>
+          And the thing is when we actually calculate attention, we do
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>Q</mi><mo>⋅</mo><msup><mi>K</mi><mi>T</mi></msup></mrow
+                  ><annotation encoding="application/x-tex"
+                    >Q \cdot K^{T}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.8778em; vertical-align: -0.1944em"
+                ></span
+                ><span class="mord mathnormal">Q</span
+                ><span class="mspace" style="margin-right: 0.2222em"></span
+                ><span class="mbin">⋅</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2222em"
+                ></span></span
+              ><span class="base"
+                ><span class="strut" style="height: 0.8413em"></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.07153em"
+                    >K</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.8413em"
+                          ><span style="top: -3.063em; margin-right: 0.05em"
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span
+                                  class="mord mathnormal mtight"
+                                  style="margin-right: 0.13889em"
+                                  >T</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ></span
+                      ></span
+                    ></span
+                  ></span
+                ></span
+              ></span
+            ></span
+          >; if you recall from linear algebra, dot products can be represented
+          as:
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>a</mi><mo>⋅</mo><mi>b</mi><mo>=</mo
+                    ><mi mathvariant="normal">∣</mi><mi>a</mi
+                    ><mi mathvariant="normal">∣</mi
+                    ><mi mathvariant="normal">∣</mi><mi>b</mi
+                    ><mi mathvariant="normal">∣</mi><mi>c</mi><mi>o</mi
+                    ><mi>s</mi><mo stretchy="false">(</mo><mi>θ</mi
+                    ><mo stretchy="false">)</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >a \cdot b = |a||b| cos(\theta)</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.4445em"></span
+                ><span class="mord mathnormal">a</span
+                ><span class="mspace" style="margin-right: 0.2222em"></span
+                ><span class="mbin">⋅</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2222em"
+                ></span></span
+              ><span class="base"
+                ><span class="strut" style="height: 0.6944em"></span
+                ><span class="mord mathnormal">b</span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord">∣</span
+                ><span class="mord mathnormal">a</span
+                ><span class="mord">∣∣</span
+                ><span class="mord mathnormal">b</span
+                ><span class="mord">∣</span
+                ><span class="mord mathnormal">cos</span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal" style="margin-right: 0.02778em"
+                  >θ</span
+                ><span class="mclose">)</span></span
+              ></span
+            ></span
+          >.
+        </li>
+        <li>
+          Therefore, the norms of the two vectors are completely preserved and
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub><mi>M</mi><mi>k</mi></msub></mrow
+                  ><annotation encoding="application/x-tex"
+                    >M_{k}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.8333em; vertical-align: -0.15em"
+                ></span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.10903em"
+                    >M</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3361em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.109em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span
+                                  class="mord mathnormal mtight"
+                                  style="margin-right: 0.03148em"
+                                  >k</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span></span></span
+          ></span>
+          only corresponds to the
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo
+                    ><mi>θ</mi><mo stretchy="false">)</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >cos(\theta)</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal">cos</span
+                ><span class="mopen">(</span
+                ><span class="mord mathnormal" style="margin-right: 0.02778em"
+                  >θ</span
+                ><span class="mclose">)</span></span
+              ></span
+            ></span
+          >
+          of the rotation/angle between the vectors, meaning that the attention
+          score actually
+          <strong
+            >depends solely on the relative rotation/distance between the words
+            not on the absolute position</strong
+          >!
+        </li>
+        <li>
+          I thought this was pretty cool and this intuition of rotation actually
+          leads to other methods for positional encoding (RoPE) but we'll stick
+          with sines and cosines for now.
+        </li>
+        <li>The actual code to implementing this is copied below.</li>
+        <li>
+          Note that PEs have <code>.requires_grad_(False)</code>, so they are
+          not learnable parameters but we need to store them later when
+          decoding, which is why we store them as a <code>buffer</code>.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">PositionalEncoding</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> d_model<span class="token punctuation">,</span> dropout<span class="token punctuation">,</span> max_len<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>dropout <span class="token operator">=</span> nn<span class="token punctuation">.</span>Dropout<span class="token punctuation">(</span>p<span class="token operator">=</span>dropout<span class="token punctuation">)</span>
+
+        <span class="token comment"># Compute the positional encodings once in log space.</span>
+        pe <span class="token operator">=</span> torch<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>max_len<span class="token punctuation">,</span> d_model<span class="token punctuation">)</span>
+        position <span class="token operator">=</span> torch<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> max_len<span class="token punctuation">)</span><span class="token punctuation">.</span>unsqueeze<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        div_term <span class="token operator">=</span> torch<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>
+            torch<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> d_model<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token operator">-</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token number">10000.0</span><span class="token punctuation">)</span> <span class="token operator">/</span> d_model<span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+        pe<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> torch<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>position <span class="token operator">*</span> div_term<span class="token punctuation">)</span>
+        pe<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> torch<span class="token punctuation">.</span>cos<span class="token punctuation">(</span>position <span class="token operator">*</span> div_term<span class="token punctuation">)</span>
+        pe <span class="token operator">=</span> pe<span class="token punctuation">.</span>unsqueeze<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>register_buffer<span class="token punctuation">(</span><span class="token string">"pe"</span><span class="token punctuation">,</span> pe<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>pe<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token punctuation">:</span> x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">.</span>requires_grad_<span class="token punctuation">(</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+</code></pre>
+      <ul>
+        <li>
+          Now let's look at the block in the right, which is actually not too
+          different compared to the encoder.
+        </li>
+      </ul>
+      <h4 id="decoder">Decoder</h4>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">Decoder</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> layer<span class="token punctuation">,</span> N<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>layers <span class="token operator">=</span> nn<span class="token punctuation">.</span>ModuleList<span class="token punctuation">(</span><span class="token punctuation">[</span>copy<span class="token punctuation">.</span>deepcopy<span class="token punctuation">(</span>layer<span class="token punctuation">)</span> <span class="token keyword keyword-for">for</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>norm <span class="token operator">=</span> LayerNorm<span class="token punctuation">(</span>layer<span class="token punctuation">.</span>size<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> memory<span class="token punctuation">,</span> src_mask<span class="token punctuation">,</span> tgt_mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> layer <span class="token keyword keyword-in">in</span> self<span class="token punctuation">.</span>layers<span class="token punctuation">:</span>
+            x <span class="token operator">=</span> layer<span class="token punctuation">(</span>x<span class="token punctuation">,</span> memory<span class="token punctuation">,</span> src_mask<span class="token punctuation">,</span> tgt_mask<span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> self<span class="token punctuation">.</span>norm<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+</code></pre>
+      <ul>
+        <li>
+          The decoder has a very similiar structure to the encoder, but includes
+          memory and some masking.
+        </li>
+        <li>
+          Here the <code>memory</code> stands for the output of the decoder, and
+          we have <code>src_mask</code> and <code>tgt_mask</code>, which
+          represents masked inputs, which we will cover now.
+        </li>
+      </ul>
+      <h4 id="masking">Masking</h4>
+      <ul>
+        <li>
+          For the decoder, when training, we want to ensure that the model is
+          not seeing the entire sentance during training.
+        </li>
+        <li>
+          Instead, we want to evaluate its performance by predicting the
+          sequence one-by-one in order. Therefore, we pass a mask before the
+          <code>softmax()</code> function in order to prevent access to the next
+          token.
+        </li>
+        <li>
+          In the code below, the logic goes as: ( matrix of 1 )
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mo>→</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >\rightarrow</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.3669em"></span
+                ><span class="mrel">→</span></span
+              ></span
+            ></span
+          >
+          ( upper triangular matrix of 1 with 0s on the diagonal )
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mo>→</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >\rightarrow</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.3669em"></span
+                ><span class="mrel">→</span></span
+              ></span
+            ></span
+          >
+          ( True if value is 0 so all 0 become 1 )
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mo>→</mo></mrow
+                  ><annotation encoding="application/x-tex"
+                    >\rightarrow</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.3669em"></span
+                ><span class="mrel">→</span></span
+              ></span
+            ></span
+          >
+          ( lower triangular matrix of 1 )
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-def">def</span> <span class="token function">subsequent_mask</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    attn_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> size<span class="token punctuation">,</span> size<span class="token punctuation">)</span>
+    subsequent_mask <span class="token operator">=</span> torch<span class="token punctuation">.</span>triu<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>attn_shape<span class="token punctuation">)</span><span class="token punctuation">,</span> diagonal<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">type</span><span class="token punctuation">(</span>
+        torch<span class="token punctuation">.</span>uint8
+    <span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> subsequent_mask <span class="token operator">==</span> <span class="token number">0</span>
+</code></pre>
+      <ul>
+        <li>
+          Note that due to the introduction of masks, we need to change the
+          attention logic to be able to work with masks.
+        </li>
+        <li>
+          Continuing the code from the <em>Attention</em> post, we notice we
+          replace all the
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mn>0</mn></mrow
+                  ><annotation encoding="application/x-tex"
+                    >0</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6444em"></span
+                ><span class="mord">0</span></span
+              ></span
+            ></span
+          >
+          with <code>-1e9</code>, which may seem a bit strange.
+        </li>
+        <li>
+          If you recall <code>softmax()</code> again,
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><mi>s</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi
+                    ><mi>x</mi><mo stretchy="false">(</mo
+                    ><msub><mi>z</mi><mi>i</mi></msub
+                    ><mo stretchy="false">)</mo><mo>=</mo
+                    ><mfrac
+                      ><msup
+                        ><mi>e</mi><msub><mi>z</mi><mi>i</mi></msub></msup
+                      ><mrow
+                        ><mo>∑</mo
+                        ><msup
+                          ><mi>e</mi><msub><mi>z</mi><mi>i</mi></msub></msup
+                        ></mrow
+                      ></mfrac
+                    ></mrow
+                  ><annotation encoding="application/x-tex"
+                    >softmax(z_{i}) =
+                    \frac{e^{z_{i}}}{\sum{e^{z_{i}}}}</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1em; vertical-align: -0.25em"
+                ></span
+                ><span class="mord mathnormal">so</span
+                ><span class="mord mathnormal" style="margin-right: 0.10764em"
+                  >f</span
+                ><span class="mord mathnormal">t</span
+                ><span class="mord mathnormal">ma</span
+                ><span class="mord mathnormal">x</span
+                ><span class="mopen">(</span
+                ><span class="mord"
+                  ><span class="mord mathnormal" style="margin-right: 0.04398em"
+                    >z</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.3117em"
+                          ><span
+                            style="
+                              top: -2.55em;
+                              margin-left: -0.044em;
+                              margin-right: 0.05em;
+                            "
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >i</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.15em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mclose">)</span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 1.431em; vertical-align: -0.52em"
+                ></span
+                ><span class="mord"
+                  ><span class="mopen nulldelimiter"></span
+                  ><span class="mfrac"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.911em"
+                          ><span style="top: -2.655em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span
+                                  class="mop op-symbol small-op mtight"
+                                  style="position: relative; top: 0em"
+                                  >∑</span
+                                ><span
+                                  class="mspace mtight"
+                                  style="margin-right: 0.1952em"
+                                ></span
+                                ><span class="mord mtight"
+                                  ><span class="mord mtight"
+                                    ><span class="mord mathnormal mtight"
+                                      >e</span
+                                    ><span class="msupsub"
+                                      ><span class="vlist-t"
+                                        ><span class="vlist-r"
+                                          ><span
+                                            class="vlist"
+                                            style="height: 0.6401em"
+                                            ><span
+                                              style="
+                                                top: -2.8326em;
+                                                margin-right: 0.0714em;
+                                              "
+                                              ><span
+                                                class="pstrut"
+                                                style="height: 2.5em"
+                                              ></span
+                                              ><span
+                                                class="sizing reset-size3 size1 mtight"
+                                                ><span class="mord mtight"
+                                                  ><span class="mord mtight"
+                                                    ><span
+                                                      class="mord mathnormal mtight"
+                                                      style="
+                                                        margin-right: 0.04398em;
+                                                      "
+                                                      >z</span
+                                                    ><span class="msupsub"
+                                                      ><span
+                                                        class="vlist-t vlist-t2"
+                                                        ><span class="vlist-r"
+                                                          ><span
+                                                            class="vlist"
+                                                            style="
+                                                              height: 0.3448em;
+                                                            "
+                                                            ><span
+                                                              style="
+                                                                top: -2.3448em;
+                                                                margin-left: -0.044em;
+                                                                margin-right: 0.1em;
+                                                              "
+                                                              ><span
+                                                                class="pstrut"
+                                                                style="
+                                                                  height: 2.6595em;
+                                                                "
+                                                              ></span
+                                                              ><span
+                                                                class="mord mtight"
+                                                                ><span
+                                                                  class="mord mathnormal mtight"
+                                                                  >i</span
+                                                                ></span
+                                                              ></span
+                                                            ></span
+                                                          ><span class="vlist-s"
+                                                            >​</span
+                                                          ></span
+                                                        ><span class="vlist-r"
+                                                          ><span
+                                                            class="vlist"
+                                                            style="
+                                                              height: 0.3147em;
+                                                            "
+                                                            ><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span
+                          ><span style="top: -3.23em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span
+                              class="frac-line"
+                              style="border-bottom-width: 0.04em"
+                            ></span></span
+                          ><span style="top: -3.394em"
+                            ><span class="pstrut" style="height: 3em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mtight"
+                                  ><span class="mord mathnormal mtight">e</span
+                                  ><span class="msupsub"
+                                    ><span class="vlist-t"
+                                      ><span class="vlist-r"
+                                        ><span
+                                          class="vlist"
+                                          style="height: 0.7385em"
+                                          ><span
+                                            style="
+                                              top: -2.931em;
+                                              margin-right: 0.0714em;
+                                            "
+                                            ><span
+                                              class="pstrut"
+                                              style="height: 2.5em"
+                                            ></span
+                                            ><span
+                                              class="sizing reset-size3 size1 mtight"
+                                              ><span class="mord mtight"
+                                                ><span class="mord mtight"
+                                                  ><span
+                                                    class="mord mathnormal mtight"
+                                                    style="
+                                                      margin-right: 0.04398em;
+                                                    "
+                                                    >z</span
+                                                  ><span class="msupsub"
+                                                    ><span
+                                                      class="vlist-t vlist-t2"
+                                                      ><span class="vlist-r"
+                                                        ><span
+                                                          class="vlist"
+                                                          style="
+                                                            height: 0.3448em;
+                                                          "
+                                                          ><span
+                                                            style="
+                                                              top: -2.3448em;
+                                                              margin-left: -0.044em;
+                                                              margin-right: 0.1em;
+                                                            "
+                                                            ><span
+                                                              class="pstrut"
+                                                              style="
+                                                                height: 2.6595em;
+                                                              "
+                                                            ></span
+                                                            ><span
+                                                              class="mord mtight"
+                                                              ><span
+                                                                class="mord mathnormal mtight"
+                                                                >i</span
+                                                              ></span
+                                                            ></span
+                                                          ></span
+                                                        ><span class="vlist-s"
+                                                          >​</span
+                                                        ></span
+                                                      ><span class="vlist-r"
+                                                        ><span
+                                                          class="vlist"
+                                                          style="
+                                                            height: 0.3147em;
+                                                          "
+                                                          ><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.52em"
+                          ><span></span></span></span></span></span
+                  ><span
+                    class="mclose nulldelimiter"
+                  ></span></span></span></span></span
+          >.
+        </li>
+        <li>
+          If we have
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow><mn>0</mn></mrow
+                  ><annotation encoding="application/x-tex"
+                    >0</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.6444em"></span
+                ><span class="mord">0</span></span
+              ></span
+            ></span
+          >
+          as the masked parts, we don't actually end up obtaining probabilities
+          after the <code>softmax()</code> as
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msup><mi>e</mi><mn>0</mn></msup
+                    ><mo>=</mo><mn>1</mn></mrow
+                  ><annotation encoding="application/x-tex"
+                    >e^{0} = 1</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span class="strut" style="height: 0.8141em"></span
+                ><span class="mord"
+                  ><span class="mord mathnormal">e</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.8141em"
+                          ><span style="top: -3.063em; margin-right: 0.05em"
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mtight">0</span></span
+                              ></span
+                            ></span
+                          ></span
+                        ></span
+                      ></span
+                    ></span
+                  ></span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span class="strut" style="height: 0.6444em"></span
+                ><span class="mord">1</span></span
+              ></span
+            ></span
+          >, meaning that masked words actually get a non-zero attention score.
+        </li>
+        <li>
+          Therefore, we fix the masks as very small values, as
+          <span class="katex"
+            ><span class="katex-mathml"
+              ><math xmlns="http://www.w3.org/1998/Math/MathML"
+                ><semantics
+                  ><mrow
+                    ><msub
+                      ><mrow><mi>lim</mi><mo>⁡</mo></mrow
+                      ><mrow
+                        ><mi>x</mi><mo>→</mo><mo>−</mo
+                        ><mi mathvariant="normal">∞</mi></mrow
+                      ></msub
+                    ><msup><mi>e</mi><mi>x</mi></msup
+                    ><mo>=</mo><mn>0</mn></mrow
+                  ><annotation encoding="application/x-tex"
+                    >\lim_{x \rightarrow -\infty} e^{x} = 0</annotation
+                  ></semantics
+                ></math
+              ></span
+            ><span class="katex-html" aria-hidden="true"
+              ><span class="base"
+                ><span
+                  class="strut"
+                  style="height: 0.9028em; vertical-align: -0.2083em"
+                ></span
+                ><span class="mop"
+                  ><span class="mop">lim</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t vlist-t2"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.2583em"
+                          ><span style="top: -2.55em; margin-right: 0.05em"
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight">x</span
+                                ><span class="mrel mtight">→</span
+                                ><span class="mord mtight">−</span
+                                ><span class="mord mtight">∞</span></span
+                              ></span
+                            ></span
+                          ></span
+                        ><span class="vlist-s">​</span></span
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.2083em"
+                          ><span></span></span></span></span></span></span
+                ><span class="mspace" style="margin-right: 0.1667em"></span
+                ><span class="mord"
+                  ><span class="mord mathnormal">e</span
+                  ><span class="msupsub"
+                    ><span class="vlist-t"
+                      ><span class="vlist-r"
+                        ><span class="vlist" style="height: 0.6644em"
+                          ><span style="top: -3.063em; margin-right: 0.05em"
+                            ><span class="pstrut" style="height: 2.7em"></span
+                            ><span class="sizing reset-size6 size3 mtight"
+                              ><span class="mord mtight"
+                                ><span class="mord mathnormal mtight"
+                                  >x</span
+                                ></span
+                              ></span
+                            ></span
+                          ></span
+                        ></span
+                      ></span
+                    ></span
+                  ></span
+                ><span class="mspace" style="margin-right: 0.2778em"></span
+                ><span class="mrel">=</span
+                ><span
+                  class="mspace"
+                  style="margin-right: 0.2778em"
+                ></span></span
+              ><span class="base"
+                ><span class="strut" style="height: 0.6444em"></span
+                ><span class="mord">0</span></span
+              ></span
+            ></span
+          >
+          in order to mask the words when it passes the <code>softmax</code>.
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-def">def</span> <span class="token function">attention</span><span class="token punctuation">(</span>Q<span class="token punctuation">,</span> K<span class="token punctuation">,</span> V<span class="token punctuation">,</span> mask<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    d_k <span class="token operator">=</span> Q<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> 
+    attn_scores <span class="token operator">=</span> torch<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>Q<span class="token punctuation">,</span> K<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> math<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span>d_k<span class="token punctuation">)</span> 
+
+    <span class="token comment"># this is the new masks part</span>
+    <span class="token keyword keyword-if">if</span> mask <span class="token keyword keyword-is">is</span> <span class="token keyword keyword-not">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        attn_scores <span class="token operator">=</span> attn_scores<span class="token punctuation">.</span>masked_fill<span class="token punctuation">(</span>mask <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1e9</span><span class="token punctuation">)</span>
+
+    attn_probs <span class="token operator">=</span> attn_scores<span class="token punctuation">.</span>softmax<span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> 
+    <span class="token keyword keyword-return">return</span> torch<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>attn_probs<span class="token punctuation">,</span> V<span class="token punctuation">)</span> 
+</code></pre>
+      <ul>
+        <li>Now back to the DecoderLayer.</li>
+      </ul>
+      <h4 id="decoder-layer">Decoder Layer</h4>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-class">class</span> <span class="token class-name">DecoderLayer</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> size<span class="token punctuation">,</span> self_attn<span class="token punctuation">,</span> src_attn<span class="token punctuation">,</span> feed_forward<span class="token punctuation">,</span> dropout<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>size <span class="token operator">=</span> size
+        self<span class="token punctuation">.</span>self_attn <span class="token operator">=</span> self_attn
+        self<span class="token punctuation">.</span>src_attn <span class="token operator">=</span> src_attn
+
+        self<span class="token punctuation">.</span>norm1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>size<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>norm2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>size<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>norm3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>LayerNorm<span class="token punctuation">(</span>size<span class="token punctuation">)</span>
+    
+        self<span class="token punctuation">.</span>feed_forward <span class="token operator">=</span> feed_forward
+
+    <span class="token keyword keyword-def">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> memory<span class="token punctuation">,</span> src_mask<span class="token punctuation">,</span> tgt_mask<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># Multi-Head-Attention Sublayer (Pre-LN)</span>
+        norm_x <span class="token operator">=</span> self<span class="token punctuation">.</span>norm1<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        self_attn_out <span class="token operator">=</span> self<span class="token punctuation">.</span>self_attn<span class="token punctuation">(</span>norm_x<span class="token punctuation">,</span> norm_x<span class="token punctuation">,</span> norm_x<span class="token punctuation">,</span> tgt_mask<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>self_attn_out<span class="token punctuation">)</span>
+
+        <span class="token comment"># Multi-Headed-Attention Sublayer with memory from Encoder</span>
+        norm_x2 <span class="token operator">=</span> self<span class="token punctuation">.</span>norm2<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        cross_attn_out <span class="token operator">=</span> self<span class="token punctuation">.</span>src_attn<span class="token punctuation">(</span>norm_x2<span class="token punctuation">,</span> memory<span class="token punctuation">,</span> memory<span class="token punctuation">,</span> src_mask<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>cross_attn_out<span class="token punctuation">)</span>
+
+        <span class="token comment"># FFN sublayer</span>
+        norm_x3 <span class="token operator">=</span> self<span class="token punctuation">.</span>norm3<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        ff_out <span class="token operator">=</span> self<span class="token punctuation">.</span>feed_forward<span class="token punctuation">(</span>norm_x3<span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> x <span class="token operator">+</span> self<span class="token punctuation">.</span>dropout<span class="token punctuation">(</span>ff_out<span class="token punctuation">)</span>
+</code></pre>
+      <ul>
+        <li>
+          And now, we have all the building blocks to make the entire
+          transformer architecture!
+        </li>
+      </ul>
+      <pre
+        data-role="codeBlock"
+        data-info="py"
+        class="language-python py"
+      ><code><span class="token keyword keyword-def">def</span> <span class="token function">make_model</span><span class="token punctuation">(</span>
+    src_vocab<span class="token punctuation">,</span> tgt_vocab<span class="token punctuation">,</span> N<span class="token operator">=</span><span class="token number">6</span><span class="token punctuation">,</span> d_model<span class="token operator">=</span><span class="token number">512</span><span class="token punctuation">,</span> d_ff<span class="token operator">=</span><span class="token number">2048</span><span class="token punctuation">,</span> h<span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">,</span> dropout<span class="token operator">=</span><span class="token number">0.1</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    c <span class="token operator">=</span> copy<span class="token punctuation">.</span>deepcopy
+    attn <span class="token operator">=</span> MultiHeadedAttention<span class="token punctuation">(</span>h<span class="token punctuation">,</span> d_model<span class="token punctuation">)</span>
+    ff <span class="token operator">=</span> PositionwiseFeedForward<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> d_ff<span class="token punctuation">,</span> dropout<span class="token punctuation">)</span>
+    position <span class="token operator">=</span> PositionalEncoding<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> dropout<span class="token punctuation">)</span>
+    model <span class="token operator">=</span> EncoderDecoder<span class="token punctuation">(</span>
+        Encoder<span class="token punctuation">(</span>EncoderLayer<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> c<span class="token punctuation">(</span>attn<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">(</span>ff<span class="token punctuation">)</span><span class="token punctuation">,</span> dropout<span class="token punctuation">)</span><span class="token punctuation">,</span> N<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        Decoder<span class="token punctuation">(</span>DecoderLayer<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> c<span class="token punctuation">(</span>attn<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">(</span>attn<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">(</span>ff<span class="token punctuation">)</span><span class="token punctuation">,</span> dropout<span class="token punctuation">)</span><span class="token punctuation">,</span> N<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>Embeddings<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> src_vocab<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">(</span>position<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>Embeddings<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> tgt_vocab<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">(</span>position<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        Generator<span class="token punctuation">(</span>d_model<span class="token punctuation">,</span> tgt_vocab<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> model
+</code></pre>
+      <ul>
+        <li>
+          Hope this helps understand how the transformer architecture is
+          established!
+        </li>
+        <li>
+          For details on training, make sure to check out
+          <a href="https://nlp.seas.harvard.edu/annotated-transformer/"
+            >Annotated Transformer</a
+          >.
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
