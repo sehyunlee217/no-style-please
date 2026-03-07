@@ -7,8 +7,8 @@ title: cafe recommendations
 
 [Revolver](https://maps.app.goo.gl/sz4zySexryJYKMi99)
 
-- Located near Gastown, it is my favorite cafe of all time.
-- Pastries are not great here; tasting flight is ok but on the expensive side - get the latte please.
+- Located near Gastown, one of the best cafes in Vancouver.
+- Pastries are not great; tasting flight is ok but on the expensive side - get the latte.
 - Best Drink: latte (**warm** not iced)
 
 [Slo](https://maps.app.goo.gl/tgn1ChBPzhP4EFE26)

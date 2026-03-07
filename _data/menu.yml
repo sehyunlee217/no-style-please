@@ -10,12 +10,16 @@ entries:
       - title: "Research @ DORL Lab UofT"
       - title: "<a href='https://github.com/sehyunlee217'>github</a> & <a href='https://www.linkedin.com/in/joe-shyun-lee/'>linkedin</a>"
 
-  - title: blog
+  - title: posts
     post_list:
       limit: 10
       show_more: true
       show_more_text: past posts...
       show_more_url: archive.html
 
-  - title: cafe recommendations
-    url: cafe_recs
+  - title: blog
+    entries:
+      - title: "cafe recommendations"
+        url: cafe_recs
+      - title: "food for thought"
+        url: foodfood
