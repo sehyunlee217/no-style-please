@@ -24,7 +24,7 @@ title: cafe recommendations
 - Located in St.Lawrence market.
 - Where I purchase my beans (Yirgacheffe) ~ $10 for 200grams
 - The coffee they serve is good but on the more acidic side.
-- Probably one of the only places left in Toronto where you can get a latte for $4.
+- Probably the only place left in Toronto where you can get a latte for $4.
 
 [Butter & Blue](https://maps.app.goo.gl/3nxRjEuRZNP37azQ9)
 
@@ -36,7 +36,7 @@ title: cafe recommendations
 
 - Right next to Butter & Blue. First cafe I've been in Toronto.
 - Great coffee but not sure about the non-coffee drinks.
-- I don't think there is AC in the summer.
+- There was no AC in the summer from what I remember.
 - Best Drink: cortado
 
 [White Squirrel Coffee Shop](https://maps.app.goo.gl/2kBUAz9nPBW9tdCKA)
