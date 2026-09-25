@@ -4,20 +4,23 @@
 entries:
   - title: about me
     url: about
+  - title: find me
     entries:
-      - title: "Industrial Engineering @ UofT"
-      - title: "ML Research Intern @ Huawei Canada"
-      - title: "Research @ DORL Lab UofT"
-      - title: "<a href='https://github.com/sehyunlee217'>github</a> & <a href='https://www.linkedin.com/in/joe-shyun-lee/'>linkedin</a>"
+      - title: github
+        url: https://github.com/sehyunlee217
+      - title: linkedin
+        url: https://www.linkedin.com/in/joe-shyun-lee/
 
-  - title: posts
+  - title: writing
     post_list:
-      limit: 10
+      limit: 5
       show_more: true
-      show_more_text: past posts...
+      show_more_text: "all posts..."
       show_more_url: archive.html
 
-  - title: blog
+  - title: personal
     entries:
-      - title: "cafe recommendations"
+      - title: winning a prize for the hugging face hackathon!
+        url: https://huggingface.co/spaces/build-small-hackathon/prize-ledger
+      - title: cafe recommendations
         url: cafe_recs
