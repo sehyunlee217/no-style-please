@@ -18,9 +18,11 @@ entries:
       show_more_text: "all posts..."
       show_more_url: archive.html
 
-  - title: personal
+  - title: thoughts
     entries:
+      # - title: pursuit of efficiency
+      #   url: thoughts/efficiency
       - title: winning a prize for the hugging face hackathon!
         url: https://huggingface.co/spaces/build-small-hackathon/prize-ledger
       - title: cafe recommendations
-        url: cafe_recs
+        url: thoughts/cafe_recs
