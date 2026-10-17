@@ -20,9 +20,9 @@ entries:
 
   - title: thoughts
     entries:
-      # - title: pursuit of efficiency
-      #   url: thoughts/efficiency
-      - title: winning a prize for the hugging face hackathon!
+      - title: pursuit of efficiency
+        url: thoughts/efficiency
+      - title: winning the hugging face hackathon!
         url: https://huggingface.co/spaces/build-small-hackathon/prize-ledger
       - title: cafe recommendations
         url: thoughts/cafe_recs
