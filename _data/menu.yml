@@ -26,3 +26,10 @@ entries:
         url: https://huggingface.co/spaces/build-small-hackathon/prize-ledger
       - title: cafe recommendations
         url: thoughts/cafe_recs
+
+  - title: research
+    entries:
+      - title: Real-time Appearance-based Gaze Estimation
+        url: https://arxiv.org/abs/2603.26945
+      - title: Sthenia
+        url: https://rdcu.be/MkDpdLqxVw3a

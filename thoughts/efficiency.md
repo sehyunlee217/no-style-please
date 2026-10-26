@@ -3,82 +3,48 @@ layout: page
 title: pursuit of efficiency
 ---
 
-I haven't written much since high school.
+I haven’t written much for myself since high school. Writing was something I found difficult, and I gradually stopped making time for it.
 
-Even during high school, the idea of writing something gave me a bit of a knot in my stomach because I never did particularly well in my English classes.
+Recently, I was preparing for an art history assessment that would take place on paper. I sat down to practice writing a few paragraphs without AI. It took me over an hour to produce a draft I was reasonably happy with.
 
-I think STEM people can somewhat relate. We gravitate towards STEM subjects because the solutions are not as ambiguous compared to those in the arts.
+What surprised me was how much I enjoyed it. Finding the words was slow, but the process helped me figure out what I actually thought.
 
-Recently, I started practicing for one of my art history writing assessments without the help of AI, since the inclass assessment would be done on paper.
+It made me wonder, when is efficiency the right goal?
 
-Although it was only a couple of short paragraphs, putting my thoughts into a cohesive paragraph  after not doing it for years was pretty hard. It took me over an hour to get a decent working draft.
+### Using AI to learn
 
-Though, when I read over what I'd written, I realized that despite finding the process a bit difficult, I had really enjoyed writing it.
+AI has become a useful part of how I work. It helps me explore coding approaches, work through difficult concepts, and catch mistakes. When I’m stuck, having something to question and work through examples with can help me move forward, though I still need to check its answers.
 
-It was fun to write, which made me wonder what things should we use AI for, and what should we do ourselves?
+But moving forward quickly doesn’t always mean I’ve learned what I wanted to learn.
 
-### Use of AI
+I noticed this while working on a personal project about Toronto’s bike-share system. I bike to school and around downtown, and I often find the station near home empty or the station at my destination full. I wanted to understand these patterns and see whether I could plan my trips better.
 
-I personally think AI is great at making things efficient.
+With AI, I quickly put together a machine-learning prototype. It appeared to work, but I couldn’t yet explain enough about the data, the model’s assumptions, or how to judge its predictions.
 
-I can code much faster and do so much more with AI. Even for school courses, when I'm stuck, I don't need to wait for office hours or Piazza replies, and nowadays, I find that AI is correct most of the time.
+That gap mattered because understanding the system was what had drawn me to the project. Having a working prototype answered only part of my question.
 
-I feel that I can learn more, more efficiently, and focus on actually understanding concepts instead of being stuck or waiting for someone to point me in the right direction. The same goes for reviewing literature or finding related papers. AI is great at that.
+The experience helped me see a distinction I hadn’t paid enough attention to. Sometimes we want a result, and sometimes we want the understanding that comes from working toward it. Knowing which one we're after changes how we should use the tools available.
 
-It also helps spot mistakes in code or emails that we all make from time to time, which I think is really useful.
+### What makes something valuable?
 
-But recently, I tried vibe-coding a solution for Toronto city bikes because I started biking almost every day to school and around downtown Toronto. 
+A [post about the value of things](https://journal.stuffwithstuff.com/2026/01/24/the-value-of-things/) helped me put words to a related feeling.
 
-The bike stations near my place are always empty, and the stations where I want to park are always full, which always make me walk around everywhere to find a spot. 
+In high school, I spent a lot of time making art. I mostly drew and painted, but I also tried pottery. My mom likes collecting bowls, so before going home for summer break, I would make a few to bring back.
 
-I personally wanted to figure out why this happens and see if there is a solution or at least an optimal way to plan my trips.
+They weren’t particularly great. They were heavier than the bowls sold in ceramic shops, and the glaze was sometimes uneven.
 
-The ML solution I vibe-coded seemed to work. But I didn't really understand what was happening under the hood in terms of the data and the model, which was what I was interested in in the first place.
+Still, those bowls mean something to us. I remember making them and choosing which ones to bring home. Their imperfections are part of that memory.
 
-So I found myself stuck in a bit of a dilemma.
+Spending more time on something doesn’t automatically make it better. But the time we choose to give it can become part of its value.
 
-Because I actually cared about this problem, it didn't make sense to outsource the process of digging into the data and the problem to AI.
+### Leaving room for the process
 
-Would it be more efficient to do so? 
+As an industrial engineering student, I spend a lot of time thinking about how to make things more efficient. I enjoy that work. Removing unnecessary effort can give people more time for things they care about.
 
-Probably.
+I’m also learning to ask what I want to preserve in the process.
 
-But if you care about something, you want to know more about it.
+For a personal project, that might be the time spent exploring an unexpected pattern in the data. For writing, it might be struggling with a sentence until I understand the thought behind it. For pottery, it was making something with someone in mind.
 
-I find that it is a bit of a contradiction for me to say I care so much about something but do not want to know more about it.
+I still want to use AI and other tools to work well. I also want to be deliberate about where I spend the time they save.
 
-This reminded me of a [post](https://journal.stuffwithstuff.com/2026/01/24/the-value-of-things/) that I read some time ago and I borrow his ideas below as I could really relate to him.
-
-### Meaning of Value
-
-I did a lot of visual arts during high school. My school had an amazing arts program, and although I was more of a drawing & painting person, I would try different mediums. One medium I tried was pottery.
-
-I would throw cups and bowls quite often and since I went home every summer break, and since I knew my mom liked collecting bowls, I would always spend time throwing some bowls to bring home.
-
-The pieces I threw were far from perfect and were not very practical.
-
-They're not as thin or light as those sold in fancy ceramic shops or Japanese kitchenware stores. The glaze isn't very consistent either.
-
-But the bowls I brought home are, at least in my view, much more valuable to me and my mom than those nicer ones you can buy.
-
-And I think what makes those bowls valuable is the time I spent making them. 
-
-Because our time is so limited, choosing to spend it on something or for someone makes whatever it is much more meaningful.
-
-### AI and Efficiency 
-
-Coming back to AI and efficiency, if there's something we value and care deeply about, we would want to spend time on it. 
-
-There's nothing wrong with being efficient, but the more time you spend on something, the more valuable and special it might feel to you.
-
-This isn't to say we should use less AI or do everything ourselves to create more perceived value for ourselves. I enjoy making things efficiently and I think the majority of jobs are better done with the help of AI.
-
-It's more that for the things we care about, whether that's time with friends and family, your career, your personal project, or the arts, efficiency doesn't always have to be the objective. 
-
-It's a very weird thing to say as an industrial engineering student but not everything is meant to be an efficient process.
-
-And life is really not efficient in any way; however, that doesn't make it any less valuable. 
-
-To summarize, we live in an world with in pursuit of efficiency. Efficiency is highly valued and  is rightfully so. 
-
-But sometimes, I think it's okay to slow down just a little bit and waste a bit of time on the things we care about because doing that makes those things more special.
+Sometimes, taking longer is a choice I’m happy to make.
